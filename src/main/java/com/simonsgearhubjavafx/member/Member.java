@@ -58,12 +58,9 @@ public class Member {
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( "|"  ).append( this.id ).append( "|" ).append(  this.name ).
-                append( "|" ).append( this.level.toString() ).append( "|" );
+      stringBuilder.append( this.id ).append( " " ).append(  this.name ).
+                append( " " ).append( this.level.toString() );
 
-        stringBuilder.append( "\nHyr just nu:\n" );
-        for( final Rental rental : this.currentRentals )
-            stringBuilder.append( rental ).append( "\n" );
 
         return stringBuilder.toString();
     }
