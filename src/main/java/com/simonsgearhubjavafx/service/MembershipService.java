@@ -3,6 +3,7 @@ package com.simonsgearhubjavafx.service;
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.MemberRegistry;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.service.IncomeService;
 
 public class MembershipService {
 
