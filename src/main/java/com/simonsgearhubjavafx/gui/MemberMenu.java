@@ -56,8 +56,9 @@ public class MemberMenu {
         root.setLeft( members );
 
         HBox buttons = new HBox();
-        Button addMemberButton  = new Button( "Ny Medlem" );
-        Button editMemberButton = new Button( "Ändra Medlem" );
+        Button addMemberButton    = new Button( "Ny Medlem" );
+        Button editMemberButton   = new Button( "Ändra Medlem" );
+        Button removeMemberButton = new Button( "Ta Bort Medlem" );
 
         addMemberButton.setOnAction( e -> {
             Member newMember = NewMemberMenu.display();
@@ -83,7 +84,19 @@ public class MemberMenu {
             }
         } );
 
-        buttons.getChildren().addAll( addMemberButton,  editMemberButton );
+        removeMemberButton.setOnAction( e -> {
+            try {
+                int index = members.getSelectionModel().getSelectedIndex();
+                membersList.remove( index );
+            }
+
+            catch ( IndexOutOfBoundsException ex ) {
+                IO.println( "Du måste trycka på en medlem" );
+                // todo alert box
+            }
+        } );
+
+        buttons.getChildren().addAll( addMemberButton,  editMemberButton, removeMemberButton );
         buttons.setAlignment( Pos.CENTER );
 
         root.setBottom( buttons );
