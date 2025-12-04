@@ -13,10 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 
 import java.util.Map;
 import java.util.Random;
@@ -49,20 +51,39 @@ public class MemberMenu {
         members.setItems( membersList );
         this.updateObservableList();
 
+
+
         root.setLeft( members );
 
         HBox buttons = new HBox();
-        Button addMemberButton = new Button( "Ny Medlem" );
+        Button addMemberButton  = new Button( "Ny Medlem" );
+        Button editMemberButton = new Button( "Ändra Medlem" );
 
         addMemberButton.setOnAction( e -> {
-
             Member newMember = NewMemberMenu.display();
-            memberShipService.addNewMember( newMember, incomeService );
 
-            this.updateObservableList();
+            if( newMember != null ) {
+                memberShipService.addNewMember(newMember, incomeService);
+                this.updateObservableList();
+            }
         } );
 
-        buttons.getChildren().add( addMemberButton );
+        editMemberButton.setOnAction( e -> {
+
+            try {
+                int index = members.getSelectionModel().getSelectedIndex();
+                Member member = membersList.get(index);
+                EditMemberMenu.display( member, incomeService );
+                updateObservableList();
+            }
+
+            catch ( IndexOutOfBoundsException ex ) {
+                IO.println( "Du måste trycka på en medlem" );
+                // todo alert box
+            }
+        } );
+
+        buttons.getChildren().addAll( addMemberButton,  editMemberButton );
         buttons.setAlignment( Pos.CENTER );
 
         root.setBottom( buttons );

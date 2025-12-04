@@ -2,6 +2,7 @@ package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.service.IncomeService;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,11 +15,12 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class NewMemberMenu {
+public class EditMemberMenu {
 
-    public static Member display() {
+    public static void display( Member member, IncomeService incomeService ) {
 
         AtomicReference<Member> newMember = new AtomicReference<>();
+        newMember.set( member );
 
         Stage stage = new Stage();
 
@@ -39,15 +41,26 @@ public class NewMemberMenu {
         pricePolicyLevel.getItems().addAll( Level.values() );
         pricePolicyLevel.setValue( Level.STANDARD );
 
-        Button addNewMemberButton = new Button( "Lägg Till Medlem" );
-        addNewMemberButton.setOnAction( e -> {
+        idTextField.setText( String.valueOf( newMember.get().getId() ) );
+        nameTextField.setText( newMember.get().getName() );
+        pricePolicyLevel.setValue( newMember.get().getLevel() );
 
-            final String id   = idTextField.getText();
-            final String name =  nameTextField.getText();
+        Button saveButton = new Button( "Spara Ny Info" );
+        saveButton.setOnAction( e -> {
 
-            if( !id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty()  )
-                newMember.set(new Member( Integer.parseInt( id ), name, pricePolicyLevel.getValue()));
+            try {
+                member.setId(Integer.parseInt(idTextField.getText()));
+            }
 
+            catch ( NumberFormatException ex ) {
+                // todo
+                IO.println( "ID måste vara ett icke-negativt heltal" );
+            }
+
+            incomeService.handleEntryFeePaymen( member, pricePolicyLevel.getValue() );
+
+            member.setName(  nameTextField.getText() );
+            member.setLevel( pricePolicyLevel.getValue() );
             stage.close();
         } );
 
@@ -57,15 +70,14 @@ public class NewMemberMenu {
         root.add( nameTextField, 1, 1 );
         root.add(  pricePolicyLabel, 0, 2 );
         root.add( pricePolicyLevel, 1, 2 );
-        root.add( addNewMemberButton, 0, 3 );
+        root.add( saveButton, 0, 3 );
 
-        GridPane.setMargin(addNewMemberButton, new Insets(0, 0, 0, 10) );
+        GridPane.setMargin( saveButton, new Insets(0, 0, 0, 10) );
 
         Scene scene = new Scene( root, 400, 300 );
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
 
-        return newMember.get();
     }
 }
