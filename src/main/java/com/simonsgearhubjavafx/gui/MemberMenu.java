@@ -3,25 +3,24 @@ package com.simonsgearhubjavafx.gui;
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import com.simonsgearhubjavafx.service.RentalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.TextFieldListCell;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.converter.DefaultStringConverter;
 
-import java.util.Map;
-import java.util.Random;
+import java.util.function.Predicate;
+import java.util.regex.PatternSyntaxException;
 
 public class MemberMenu {
 
@@ -31,8 +30,10 @@ public class MemberMenu {
     IncomeService incomeService;
 
 
-    ObservableList<Member> membersList = FXCollections.observableArrayList();
+    final ObservableList<Member> membersList = FXCollections.observableArrayList();
+    FilteredList<Member> filteredList = new FilteredList<>( membersList );
 
+    Predicate<Member> predicate = null;
 
     public MemberMenu(MembershipService memberShipService, RentalService rentalService, Inventory inventory, IncomeService incomeService) {
 
@@ -51,8 +52,6 @@ public class MemberMenu {
         members.setItems( membersList );
         this.updateObservableList();
 
-
-
         root.setLeft( members );
 
         HBox buttons = new HBox();
@@ -64,7 +63,7 @@ public class MemberMenu {
             Member newMember = NewMemberMenu.display();
 
             if( newMember != null ) {
-                memberShipService.addNewMember(newMember, incomeService);
+                memberShipService.addNewMember( newMember, incomeService );
                 this.updateObservableList();
             }
         } );
@@ -72,10 +71,13 @@ public class MemberMenu {
         editMemberButton.setOnAction( e -> {
 
             try {
-                int index = members.getSelectionModel().getSelectedIndex();
-                Member member = membersList.get(index);
+                Member member = (Member) members.getSelectionModel().getSelectedItem();
+
                 EditMemberMenu.display( member, incomeService );
                 updateObservableList();
+
+                for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )
+                    IO.println( memberShipService.getMemberRegistry().getMembers().get(key) );
             }
 
             catch ( IndexOutOfBoundsException ex ) {
@@ -86,8 +88,7 @@ public class MemberMenu {
 
         removeMemberButton.setOnAction( e -> {
             try {
-                int index = members.getSelectionModel().getSelectedIndex();
-                membersList.remove( index );
+                membersList.remove( members.getSelectionModel().getSelectedItem() );
             }
 
             catch ( IndexOutOfBoundsException ex ) {
@@ -100,6 +101,32 @@ public class MemberMenu {
         buttons.setAlignment( Pos.CENTER );
 
         root.setBottom( buttons );
+
+        HBox search = new HBox();
+
+        Label searchMethod = new Label( "Söksätt" );
+        searchMethod.setId( "search-method-label" );
+
+        ComboBox<String> searchBox = new ComboBox<>();
+        searchBox.setValue( "id" );
+        searchBox.getItems().addAll( "id", "find", "match", "medlemsnivå" );
+
+        TextField searchField = new TextField();
+
+        Button searchButton = new Button( "Sök" );
+
+        searchButton.setOnAction( e -> {
+
+            searchAndFilter( members,  searchBox, searchField );
+
+        } );
+
+        search.getChildren().addAll( searchMethod, searchBox, searchField, searchButton );
+        search.setAlignment( Pos.CENTER );
+        search.setSpacing( 5 );
+        search.setPadding(new Insets(20, 20, 20, 20));
+
+        root.setTop( search );
 
         Scene scene = new Scene( root, 800, 600  );
         Stage stage = new Stage();
@@ -114,5 +141,64 @@ public class MemberMenu {
         membersList.clear();
         for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )
             membersList.add( memberShipService.getMemberRegistry().getMembers().get( key ) );
+    }
+
+    public void searchAndFilter( ListView members, ComboBox searchBox, TextField searchField  ) {
+
+        if( searchBox.getValue().equals( "id" ) ) {
+
+            predicate = member -> member.getId() == Integer.parseInt( searchField.getText() );
+
+            if( searchField.getText().isEmpty() )
+                predicate = null;
+
+            if( !searchField.getText().matches(  "[0-9]+" ) )
+                predicate = null;
+
+            filteredList.setPredicate( predicate );
+
+            members.setItems( filteredList );
+        }
+
+        else if( searchBox.getValue().equals( "find" ) ) {
+
+            try {
+                predicate = member -> Regex.isFound( member.getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                members.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "match" ) ) {
+
+            try {
+                predicate = member -> Regex.isMatch( member.getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                members.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "medlemsnivå" ) ) {
+
+            try {
+
+                predicate = member -> member.getLevel() == Level.valueOf( searchField.getText().toUpperCase() );
+
+                if( searchField.getText().isEmpty() )
+                    predicate = null;
+                try {
+                    filteredList.setPredicate(predicate);
+                    members.setItems(filteredList);
+                }
+
+                catch ( IllegalArgumentException ex ) {}
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
     }
 }

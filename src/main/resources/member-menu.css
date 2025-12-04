@@ -3,3 +3,17 @@ Button {
 
     -fx-font-size: 18px;
 }
+
+#search-method-label {
+    -fx-font-size: 18px;
+}
+
+ComboBox {
+
+    -fx-font-size: 18px;
+}
+
+TextField {
+
+    -fx-font-size: 18px;
+}
