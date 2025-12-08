@@ -64,4 +64,8 @@ public class Member {
 
         return stringBuilder.toString();
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

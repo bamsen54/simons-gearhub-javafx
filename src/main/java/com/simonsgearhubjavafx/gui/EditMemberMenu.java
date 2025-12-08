@@ -1,0 +1,83 @@
+package com.simonsgearhubjavafx.gui;
+
+import com.simonsgearhubjavafx.Level;
+import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.service.IncomeService;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+public class EditMemberMenu {
+
+    public static void display( Member member, IncomeService incomeService ) {
+
+        AtomicReference<Member> newMember = new AtomicReference<>();
+        newMember.set( member );
+
+        Stage stage = new Stage();
+
+        GridPane root = new GridPane();
+        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-member-menu.css" ).toExternalForm() );
+
+        root.setHgap( 25 );
+        root.setVgap( 15 );
+
+        Label idLabel = new Label( "Id" );
+        TextField idTextField = new TextField();
+
+        Label nameLabel = new Label( "Name" );
+        TextField nameTextField = new TextField();
+
+        Label pricePolicyLabel = new Label( "Medlemsnivå" );
+        ComboBox<Level> pricePolicyLevel = new ComboBox<>();
+        pricePolicyLevel.getItems().addAll( Level.values() );
+        pricePolicyLevel.setValue( Level.STANDARD );
+
+        idTextField.setText( String.valueOf( newMember.get().getId() ) );
+        nameTextField.setText( newMember.get().getName() );
+        pricePolicyLevel.setValue( newMember.get().getLevel() );
+
+        Button saveButton = new Button( "Spara Ny Info" );
+        saveButton.setOnAction( e -> {
+
+            try {
+                member.setId(Integer.parseInt(idTextField.getText()));
+            }
+
+            catch ( NumberFormatException ex ) {
+                // todo
+                IO.println( "ID måste vara ett icke-negativt heltal" );
+            }
+
+            incomeService.handleEntryFeePaymen( member, pricePolicyLevel.getValue() );
+
+            member.setName(  nameTextField.getText() );
+            member.setLevel( pricePolicyLevel.getValue() );
+            stage.close();
+        } );
+
+        root.add( idLabel, 0, 0 );
+        root.add( idTextField, 1, 0 );
+        root.add( nameLabel, 0, 1 );
+        root.add( nameTextField, 1, 1 );
+        root.add(  pricePolicyLabel, 0, 2 );
+        root.add( pricePolicyLevel, 1, 2 );
+        root.add( saveButton, 0, 3 );
+
+        GridPane.setMargin( saveButton, new Insets(0, 0, 0, 10) );
+
+        Scene scene = new Scene( root, 400, 300 );
+        stage.setScene( scene );
+        stage.initModality( Modality.APPLICATION_MODAL );
+        stage.showAndWait();
+
+    }
+}
