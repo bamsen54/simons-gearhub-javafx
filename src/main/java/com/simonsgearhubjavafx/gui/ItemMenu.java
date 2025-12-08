@@ -1,21 +1,28 @@
 package com.simonsgearhubjavafx.gui;
 
+import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.Inventory;
+import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import com.simonsgearhubjavafx.service.RentalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.function.Predicate;
+import java.util.regex.PatternSyntaxException;
 
 public class ItemMenu {
 
@@ -24,7 +31,11 @@ public class ItemMenu {
     Inventory inventory;
     IncomeService incomeService;
 
-    ObservableList<Item> articleList = FXCollections.observableArrayList();
+
+    final ObservableList<InventoryEntry> inventoryEntryList = FXCollections.observableArrayList();
+    FilteredList<InventoryEntry> filteredList = new FilteredList( inventoryEntryList );
+
+    Predicate<Item> predicate = null;
 
     public ItemMenu(MembershipService memberShipService, RentalService rentalService, Inventory inventory, IncomeService incomeService) {
 
@@ -37,42 +48,44 @@ public class ItemMenu {
     public void display() {
 
         BorderPane root = new BorderPane();
-        root.getStylesheets().add( MemberMenu.class.getResource("/member-menu.css").toExternalForm() );
+        root.getStylesheets().add( MemberMenu.class.getResource("/item-menu.css").toExternalForm() );
 
-        ListView members = new ListView();
-        members.setItems( articleList );
+        ListView items = new ListView();
+        items.setItems( inventoryEntryList );
         this.updateObservableList();
 
-        root.setLeft( members );
+        root.setLeft( items );
 
         HBox buttons = new HBox();
-        Button addMemberButton = new Button( "Ny Medlem" );
+        Button addPersonalCarButton   = new Button( "Ny Personbil" );
+        Button editItemButton   = new Button( "Ändra Artikel" );
+        Button removeItemButton = new Button( "Ta Bort Artikel" );
+        buttons.getChildren().addAll( addPersonalCarButton, editItemButton, removeItemButton );
 
-        addMemberButton.setOnAction( e -> {
+        addPersonalCarButton.setOnAction( e -> {
+            InventoryEntry newInventoryEntry = NewInventoryEntryPersonalCarMenu.display();
 
-            Member newMember = NewMemberMenu.display();
-            memberShipService.addNewMember( newMember, incomeService );
-
-            this.updateObservableList();
+            IO.println( newInventoryEntry );
+            if( newInventoryEntry != null ) {
+                inventory.getInventory().put( newInventoryEntry.getId(), newInventoryEntry );
+                this.updateObservableList();
+            }
         } );
 
-        buttons.getChildren().add( addMemberButton );
         buttons.setAlignment( Pos.CENTER );
-
         root.setBottom( buttons );
 
-        Scene scene = new Scene( root, 800, 600  );
+        Scene scene = new Scene(root, 800, 600 );
         Stage stage = new Stage();
-
-        stage.initModality( Modality.APPLICATION_MODAL );
-        stage.setTitle( "Medlemmar" );
         stage.setScene( scene );
+        stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
+
     }
 
     public void updateObservableList() {
-        articleList.clear();
+        inventoryEntryList.clear();
         for( int key: inventory.getInventory().keySet() )
-            articleList.add( inventory.getInventory().get( key ).getItem() );
+            inventoryEntryList.add( inventory.getInventory().get( key ) );
     }
 }
