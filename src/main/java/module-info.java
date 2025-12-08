@@ -3,6 +3,9 @@ module com.simonsgearhubjavafx {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires javafx.graphics;
+    requires javafx.base;
+
     // Denna rad har tagits bort: requires com.simonsgearhubjavafx;
 
     // Öppnar modulen för FXML-laddaren

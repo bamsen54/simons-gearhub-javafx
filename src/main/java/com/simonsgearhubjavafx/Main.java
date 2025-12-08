@@ -23,8 +23,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        inventory.loadFromDatabase();
+
+
         MainMenu mainMenu = new MainMenu( memberShipService, rentalService, inventory, incomeService );
 
         mainMenu.display( stage );
+
+
     }
 }
