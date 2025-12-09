@@ -58,9 +58,10 @@ public class ItemMenu {
 
         HBox buttons = new HBox();
         Button addPersonalCarButton   = new Button( "Ny Personbil" );
+        Button addRacingCarButton = new Button( "Ny Racingbil" );
         Button editItemButton   = new Button( "Ändra Artikel" );
         Button removeItemButton = new Button( "Ta Bort Artikel" );
-        buttons.getChildren().addAll( addPersonalCarButton, editItemButton, removeItemButton );
+        buttons.getChildren().addAll( addPersonalCarButton, addRacingCarButton, editItemButton, removeItemButton );
 
         addPersonalCarButton.setOnAction( e -> {
             InventoryEntry newInventoryEntry = NewInventoryEntryPersonalCarMenu.display();
@@ -72,6 +73,12 @@ public class ItemMenu {
             }
         } );
 
+        addRacingCarButton.setOnAction( e -> {
+
+            InventoryEntry newInventoryEntry = NewInventoryEntryRacingCarMenu.display();
+            IO.println( newInventoryEntry );
+        } );
+
         buttons.setAlignment( Pos.CENTER );
         root.setBottom( buttons );
 
@@ -80,7 +87,6 @@ public class ItemMenu {
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
-
     }
 
     public void updateObservableList() {
