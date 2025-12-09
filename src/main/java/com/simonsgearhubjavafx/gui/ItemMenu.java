@@ -4,6 +4,7 @@ import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
+import com.simonsgearhubjavafx.item.PersonalCar;
 import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
@@ -74,9 +75,27 @@ public class ItemMenu {
         } );
 
         addRacingCarButton.setOnAction( e -> {
-
             InventoryEntry newInventoryEntry = NewInventoryEntryRacingCarMenu.display();
+
             IO.println( newInventoryEntry );
+            if( newInventoryEntry != null ) {
+                inventory.getInventory().put( newInventoryEntry.getId(), newInventoryEntry );
+                this.updateObservableList();
+            }
+        } );
+
+        editItemButton.setOnAction( e -> {
+            InventoryEntry inventoryEntryToEdit = (InventoryEntry) items.getSelectionModel().getSelectedItem();
+            IO.println( inventoryEntryToEdit );
+
+            if( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
+                try {
+                    EditPersonalCarMenu.display( inventoryEntryToEdit );
+                    updateObservableList();
+                }
+
+                catch ( RuntimeException ex ) {}
+            }
         } );
 
         buttons.setAlignment( Pos.CENTER );

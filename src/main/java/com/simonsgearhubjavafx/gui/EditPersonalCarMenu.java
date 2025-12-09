@@ -4,7 +4,6 @@ import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
-import com.simonsgearhubjavafx.item.RacingCar;
 import com.simonsgearhubjavafx.member.Member;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,9 +17,9 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class NewInventoryEntryRacingCarMenu {
+public class EditPersonalCarMenu {
 
-    public static InventoryEntry display() {
+    public static void display( InventoryEntry inventoryEntry ) {
 
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
@@ -35,11 +34,11 @@ public class NewInventoryEntryRacingCarMenu {
         Label name = new Label( "Namn" );
         TextField nameField = new TextField();
 
-        Label racingDicipline     = new Label( "Racing typ" );
-        TextField racingDiciplineField = new TextField();
+        Label numberOfSeats = new Label( "Säten" );
+        TextField numberOfSeatsField = new TextField();
 
-        Label horsePower = new Label( "Hästkraft" );
-        TextField horsePowerField = new TextField();
+        Label bodyStyle = new Label( "Bilkarosstyp" );
+        TextField bodyStyleField = new TextField();
 
         Label dailyRate = new Label( "Dagspris" );
         TextField dailyRateField = new TextField();
@@ -47,15 +46,24 @@ public class NewInventoryEntryRacingCarMenu {
         Label quantity = new Label( "Antal" );
         TextField quantityField = new TextField();
 
-        Button saveRacingCarButton = new Button( "Spara racingbil" );
+        idField.setText( String.valueOf( inventoryEntry.getItem().getId() ) );
+        nameField.setText( inventoryEntry.getItem().getName() );
+        PersonalCar personalCarEdit = (PersonalCar) inventoryEntry.getItem();
+        numberOfSeatsField.setText( personalCarEdit.getNumberOfSeats() + "" );
+        bodyStyleField.setText( personalCarEdit.getBodyStyle() );
+        dailyRateField.setText( personalCarEdit.getDailyRate() + "" );
+        quantityField.setText( inventoryEntry.getQuantityInStore() + "" );
 
-        saveRacingCarButton.setOnAction( e -> {
+        Button savePersonalCarButton = new Button( "Spara personbil" );
 
-            boolean anyEmpty = idField.getText().isEmpty() ||  nameField.getText().isEmpty() || racingDiciplineField.getText().isEmpty()
-                    || racingDiciplineField.getText().isEmpty() ||  horsePowerField.getText().isEmpty()
-                    || horsePowerField.getText().isEmpty() ||  quantityField.getText().isEmpty()
+        savePersonalCarButton.setOnAction( e -> {
+
+            boolean anyEmpty = idField.getText().isEmpty() ||  nameField.getText().isEmpty() || numberOfSeats.getText().isEmpty()
+                    || numberOfSeatsField.getText().isEmpty() ||  bodyStyleField.getText().isEmpty()
+                    || bodyStyleField.getText().isEmpty() ||  quantityField.getText().isEmpty()
                     ||  quantityField.getText().isEmpty() ||  dailyRateField.getText().isEmpty();
-            boolean numericalFieldsAreNumeric = quantityField.getText().matches( "[0-9]+" ) && horsePowerField.getText().matches( "[0-9]+" );
+            boolean numericalFieldsAreNumeric = numberOfSeatsField.getText().matches( "[0-9]+" )
+                    && quantityField.getText().matches( "[0-9]+" );
 
             if( !anyEmpty && numericalFieldsAreNumeric) {
 
@@ -64,16 +72,24 @@ public class NewInventoryEntryRacingCarMenu {
 
                 final int ID = Integer.parseInt( idField.getText() );
                 final String NAME = nameField.getText();
-                final String RACING_DICIPLINE = racingDiciplineField.getText() ;
-                final int HORSE_POWER = Integer.parseInt(  horsePowerField.getText() );
+                final int NUMBER_OF_SEATS = Integer.parseInt( numberOfSeatsField.getText() );
+                final String BODY_TYPE = bodyStyleField.getText();
                 final double DAILY_RATE = Double.parseDouble( dailyRateField.getText() );
 
-                RacingCar racingCar = new RacingCar( ID, NAME, "racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
+                PersonalCar personalCar = new PersonalCar( ID, NAME, "personbil", DAILY_RATE, NUMBER_OF_SEATS, BODY_TYPE );
 
-                newPersonalCarEntry.setItem( racingCar );
+                newPersonalCarEntry.setItem( personalCar );
 
                 newInventoryEntry.set( newPersonalCarEntry );
 
+                inventoryEntry.setItem( personalCar );
+
+                if( quantityField.getText().matches( "[0-9]+" ) )
+                    inventoryEntry.setQuantityInStore( Integer.parseInt( quantityField.getText() ) );
+
+                else
+                    return; // todo messege to user
+                IO.println( personalCar );
                 stage.close();
             }
         } );
@@ -84,11 +100,11 @@ public class NewInventoryEntryRacingCarMenu {
         root.add( name, 0, 1 );
         root.add( nameField, 1, 1 );
 
-        root.add( racingDicipline, 0, 2 );
-        root.add( racingDiciplineField, 1, 2 );
+        root.add( numberOfSeats, 0, 2 );
+        root.add( numberOfSeatsField, 1, 2 );
 
-        root.add( horsePower, 0, 3 );
-        root.add( horsePowerField, 1, 3 );
+        root.add( bodyStyle, 0, 3 );
+        root.add( bodyStyleField, 1, 3 );
 
         root.add( dailyRate,  0, 4 );
         root.add( dailyRateField, 1, 4 );
@@ -96,7 +112,7 @@ public class NewInventoryEntryRacingCarMenu {
         root.add( quantity, 0, 5 );
         root.add( quantityField, 1, 5 );
 
-        root.add( saveRacingCarButton, 0, 6 );
+        root.add( savePersonalCarButton, 0, 6 );
 
         Scene scene = new Scene( root, 400, 400 );
         stage.setScene( scene );
@@ -105,6 +121,6 @@ public class NewInventoryEntryRacingCarMenu {
         stage.showAndWait();
 
 
-        return newInventoryEntry.get();
+        //return newInventoryEntry.get();
     }
 }
