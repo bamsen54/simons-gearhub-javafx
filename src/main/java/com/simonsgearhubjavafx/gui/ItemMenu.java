@@ -89,12 +89,14 @@ public class ItemMenu {
             IO.println( inventoryEntryToEdit );
 
             if( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
-                try {
+                //try {
                     EditPersonalCarMenu.display( inventoryEntryToEdit );
                     updateObservableList();
-                }
+                //}
 
-                catch ( RuntimeException ex ) {}
+                //catch ( RuntimeException ex ) {
+                  //  IO.println( "exception" );
+                //}
             }
         } );
 
