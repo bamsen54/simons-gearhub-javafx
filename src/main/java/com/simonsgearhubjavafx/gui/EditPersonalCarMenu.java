@@ -88,16 +88,11 @@ public class EditPersonalCarMenu {
                     inventoryEntry.setItem( personalCar );
                 }
 
-                catch ( NumberFormatException ex ) {}
+                catch ( NumberFormatException ex ) {
+                    // todo message to user
+                    return;
+                }
 
-
-
-                if( quantityField.getText().matches( "[0-9]+" ) )
-                    inventoryEntry.setQuantityInStore( Integer.parseInt( quantityField.getText() ) );
-
-                else
-                    return; // todo messege to user
-                
                 stage.close();
             }
         } );

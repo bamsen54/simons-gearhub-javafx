@@ -5,6 +5,7 @@ import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
+import com.simonsgearhubjavafx.item.RacingCar;
 import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
@@ -89,14 +90,26 @@ public class ItemMenu {
             IO.println( inventoryEntryToEdit );
 
             if( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
-                //try {
+                try {
                     EditPersonalCarMenu.display( inventoryEntryToEdit );
                     updateObservableList();
-                //}
+                }
 
-                //catch ( RuntimeException ex ) {
+                catch ( RuntimeException ex ) {
                   //  IO.println( "exception" );
-                //}
+                }
+            }
+
+            else if( inventoryEntryToEdit.getItem() instanceof RacingCar ) {
+
+                try {
+                    EditRacingCarMenu.display( inventoryEntryToEdit );
+                    updateObservableList();
+                }
+
+                catch ( RuntimeException ex ) {
+                    //  IO.println( "exception" );
+                }
             }
         } );
 
