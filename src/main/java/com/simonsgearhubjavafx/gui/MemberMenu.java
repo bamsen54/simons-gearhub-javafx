@@ -88,7 +88,10 @@ public class MemberMenu {
 
         removeMemberButton.setOnAction( e -> {
             try {
-                membersList.remove( members.getSelectionModel().getSelectedItem() );
+
+                Member memberToRemove = (Member) members.getSelectionModel().getSelectedItem();
+                memberShipService.getMemberRegistry().removeMember( memberToRemove );
+                membersList.remove( memberToRemove );
             }
 
             catch ( IndexOutOfBoundsException ex ) {

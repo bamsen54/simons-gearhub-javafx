@@ -31,6 +31,10 @@ public class InventoryEntry {
         this.quantityInStore = quantityInStore;
     }
 
+    public int getId() {
+        return this.item.getId();
+    }
+
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();

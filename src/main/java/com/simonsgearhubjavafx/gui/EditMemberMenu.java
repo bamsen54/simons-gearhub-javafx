@@ -49,7 +49,7 @@ public class EditMemberMenu {
         saveButton.setOnAction( e -> {
 
             try {
-                member.setId(Integer.parseInt(idTextField.getText()));
+                member.setId( Integer.parseInt(idTextField.getText() ) );
             }
 
             catch ( NumberFormatException ex ) {

@@ -1,21 +1,27 @@
 package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.database.Inventory;
-import com.simonsgearhubjavafx.item.Item;
-import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.database.InventoryEntry;
+import com.simonsgearhubjavafx.item.PersonalCar;
+import com.simonsgearhubjavafx.item.RacingCar;
+import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import com.simonsgearhubjavafx.service.RentalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.function.Predicate;
+import java.util.regex.PatternSyntaxException;
 
 public class ItemMenu {
 
@@ -24,7 +30,11 @@ public class ItemMenu {
     Inventory inventory;
     IncomeService incomeService;
 
-    ObservableList<Item> articleList = FXCollections.observableArrayList();
+
+    final ObservableList<InventoryEntry> inventoryEntryList = FXCollections.observableArrayList();
+    FilteredList<InventoryEntry> filteredList = new FilteredList( inventoryEntryList );
+
+    Predicate<InventoryEntry> predicate = null;
 
     public ItemMenu(MembershipService memberShipService, RentalService rentalService, Inventory inventory, IncomeService incomeService) {
 
@@ -37,42 +47,179 @@ public class ItemMenu {
     public void display() {
 
         BorderPane root = new BorderPane();
-        root.getStylesheets().add( MemberMenu.class.getResource("/member-menu.css").toExternalForm() );
+        root.getStylesheets().add( MemberMenu.class.getResource("/item-menu.css").toExternalForm() );
 
-        ListView members = new ListView();
-        members.setItems( articleList );
+        ListView items = new ListView();
+        items.setItems( inventoryEntryList );
+        items.setPrefWidth( 500 );
         this.updateObservableList();
 
-        root.setLeft( members );
+        root.setLeft( items );
 
         HBox buttons = new HBox();
-        Button addMemberButton = new Button( "Ny Medlem" );
+        Button addPersonalCarButton   = new Button( "Ny Personbil" );
+        Button addRacingCarButton = new Button( "Ny Racingbil" );
+        Button editItemButton   = new Button( "Ändra Artikel" );
+        Button removeItemButton = new Button( "Ta Bort Artikel" );
+        buttons.getChildren().addAll( addPersonalCarButton, addRacingCarButton, editItemButton, removeItemButton );
 
-        addMemberButton.setOnAction( e -> {
+        addPersonalCarButton.setOnAction( e -> {
+            InventoryEntry newInventoryEntry = NewInventoryEntryPersonalCarMenu.display();
 
-            Member newMember = NewMemberMenu.display();
-            memberShipService.addNewMember( newMember, incomeService );
-
-            this.updateObservableList();
+            IO.println( newInventoryEntry );
+            if( newInventoryEntry != null ) {
+                inventory.getInventory().put( newInventoryEntry.getId(), newInventoryEntry );
+                this.updateObservableList();
+            }
         } );
 
-        buttons.getChildren().add( addMemberButton );
-        buttons.setAlignment( Pos.CENTER );
+        addRacingCarButton.setOnAction( e -> {
+            InventoryEntry newInventoryEntry = NewInventoryEntryRacingCarMenu.display();
 
+            IO.println( newInventoryEntry );
+            if( newInventoryEntry != null ) {
+                inventory.getInventory().put( newInventoryEntry.getId(), newInventoryEntry );
+                this.updateObservableList();
+            }
+        } );
+
+        editItemButton.setOnAction( e -> {
+            InventoryEntry inventoryEntryToEdit = (InventoryEntry) items.getSelectionModel().getSelectedItem();
+            IO.println( inventoryEntryToEdit );
+
+            if( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
+                try {
+                    EditPersonalCarMenu.display( inventoryEntryToEdit );
+                    updateObservableList();
+                }
+
+                catch ( RuntimeException ex ) {
+                  //  IO.println( "exception" );
+                }
+            }
+
+            else if( inventoryEntryToEdit.getItem() instanceof RacingCar ) {
+
+                try {
+                    EditRacingCarMenu.display( inventoryEntryToEdit );
+                    updateObservableList();
+                }
+
+                catch ( RuntimeException ex ) {
+                    //  IO.println( "exception" );
+                }
+            }
+        } );
+
+        buttons.setAlignment( Pos.CENTER );
         root.setBottom( buttons );
 
-        Scene scene = new Scene( root, 800, 600  );
-        Stage stage = new Stage();
+        HBox search = new HBox();
 
-        stage.initModality( Modality.APPLICATION_MODAL );
-        stage.setTitle( "Medlemmar" );
+        Label searchMethod = new Label( "Söksätt" );
+        searchMethod.setId( "search-method-label" );
+
+        ComboBox<String> searchBox = new ComboBox<>();
+        searchBox.setValue( "id" );
+        searchBox.getItems().addAll( "id", "find", "match", "kategori" );
+
+        TextField searchField = new TextField();
+
+        Button searchButton = new Button( "Sök" );
+
+        searchButton.setOnAction( e -> {
+
+            searchAndFilter( items,  searchBox, searchField );
+
+        } );
+
+        search.getChildren().addAll( searchMethod, searchBox, searchField, searchButton );
+        search.setAlignment( Pos.CENTER );
+        search.setSpacing( 5 );
+        search.setPadding(new Insets(20, 20, 20, 20));
+
+        root.setTop( search );
+
+        removeItemButton.setOnAction( e -> {
+
+            try {
+                InventoryEntry inventoryEntryToRemove =  (InventoryEntry) items.getSelectionModel().getSelectedItem();
+                inventory.getInventory().remove( inventoryEntryToRemove.getId() );
+                inventoryEntryList.remove( inventoryEntryToRemove  );
+            }
+
+            catch ( IndexOutOfBoundsException ex ) {
+                IO.println( "Du måste trycka på en medlem" );
+                // todo alert box
+            }
+        } );
+
+        Scene scene = new Scene(root, 800, 600 );
+        Stage stage = new Stage();
         stage.setScene( scene );
+        stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
     }
 
+    public void searchAndFilter(ListView items, ComboBox searchBox, TextField searchField ) {
+
+
+        if( searchBox.getValue().equals( "id" ) ) {
+
+            predicate = inventoryEntry -> inventoryEntry.getId() == Integer.parseInt( searchField.getText() );
+
+            if( searchField.getText().isEmpty() )
+                predicate = null;
+
+            if( !searchField.getText().matches(  "[0-9]+" ) )
+                predicate = null;
+
+            filteredList.setPredicate( predicate );
+
+            items.setItems( filteredList );
+        }
+
+
+        else if( searchBox.getValue().equals( "find" ) ) {
+
+            try {
+                predicate = inventoryEntry -> Regex.isFound( inventoryEntry.getItem().getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "match" ) ) {
+
+            try {
+                predicate = inventoryEntry -> Regex.isMatch( inventoryEntry.getItem().getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "kategori" ) ) {
+
+            if( searchField.getText().isEmpty() )
+                return;
+
+            try {
+                predicate = inventoryEntry -> inventoryEntry.getItem().getCategory().equals( searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+    }
+
     public void updateObservableList() {
-        articleList.clear();
+        inventoryEntryList.clear();
         for( int key: inventory.getInventory().keySet() )
-            articleList.add( inventory.getInventory().get( key ).getItem() );
+            inventoryEntryList.add( inventory.getInventory().get( key ) );
     }
 }
