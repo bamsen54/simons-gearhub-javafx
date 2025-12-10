@@ -1,12 +1,9 @@
 package com.simonsgearhubjavafx.gui;
 
-import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
-import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
 import com.simonsgearhubjavafx.item.RacingCar;
-import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.regex.Regex;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
@@ -37,7 +34,7 @@ public class ItemMenu {
     final ObservableList<InventoryEntry> inventoryEntryList = FXCollections.observableArrayList();
     FilteredList<InventoryEntry> filteredList = new FilteredList( inventoryEntryList );
 
-    Predicate<Item> predicate = null;
+    Predicate<InventoryEntry> predicate = null;
 
     public ItemMenu(MembershipService memberShipService, RentalService rentalService, Inventory inventory, IncomeService incomeService) {
 
@@ -54,6 +51,7 @@ public class ItemMenu {
 
         ListView items = new ListView();
         items.setItems( inventoryEntryList );
+        items.setPrefWidth( 500 );
         this.updateObservableList();
 
         root.setLeft( items );
@@ -116,11 +114,107 @@ public class ItemMenu {
         buttons.setAlignment( Pos.CENTER );
         root.setBottom( buttons );
 
+        HBox search = new HBox();
+
+        Label searchMethod = new Label( "Söksätt" );
+        searchMethod.setId( "search-method-label" );
+
+        ComboBox<String> searchBox = new ComboBox<>();
+        searchBox.setValue( "id" );
+        searchBox.getItems().addAll( "id", "find", "match", "kategori" );
+
+        TextField searchField = new TextField();
+
+        Button searchButton = new Button( "Sök" );
+
+        searchButton.setOnAction( e -> {
+
+            searchAndFilter( items,  searchBox, searchField );
+
+        } );
+
+        search.getChildren().addAll( searchMethod, searchBox, searchField, searchButton );
+        search.setAlignment( Pos.CENTER );
+        search.setSpacing( 5 );
+        search.setPadding(new Insets(20, 20, 20, 20));
+
+        root.setTop( search );
+
+        removeItemButton.setOnAction( e -> {
+
+            try {
+                InventoryEntry inventoryEntryToRemove =  (InventoryEntry) items.getSelectionModel().getSelectedItem();
+                inventory.getInventory().remove( inventoryEntryToRemove.getId() );
+                inventoryEntryList.remove( inventoryEntryToRemove  );
+            }
+
+            catch ( IndexOutOfBoundsException ex ) {
+                IO.println( "Du måste trycka på en medlem" );
+                // todo alert box
+            }
+        } );
+
         Scene scene = new Scene(root, 800, 600 );
         Stage stage = new Stage();
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
+    }
+
+    public void searchAndFilter(ListView items, ComboBox searchBox, TextField searchField ) {
+
+
+        if( searchBox.getValue().equals( "id" ) ) {
+
+            predicate = inventoryEntry -> inventoryEntry.getId() == Integer.parseInt( searchField.getText() );
+
+            if( searchField.getText().isEmpty() )
+                predicate = null;
+
+            if( !searchField.getText().matches(  "[0-9]+" ) )
+                predicate = null;
+
+            filteredList.setPredicate( predicate );
+
+            items.setItems( filteredList );
+        }
+
+
+        else if( searchBox.getValue().equals( "find" ) ) {
+
+            try {
+                predicate = inventoryEntry -> Regex.isFound( inventoryEntry.getItem().getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "match" ) ) {
+
+            try {
+                predicate = inventoryEntry -> Regex.isMatch( inventoryEntry.getItem().getName(), searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
+
+        else if( searchBox.getValue().equals( "kategori" ) ) {
+
+            if( searchField.getText().isEmpty() )
+                return;
+
+            try {
+                predicate = inventoryEntry -> inventoryEntry.getItem().getCategory().equals( searchField.getText() );
+                filteredList.setPredicate( predicate );
+                items.setItems( filteredList );
+            }
+
+            catch ( PatternSyntaxException ex ) {}
+        }
     }
 
     public void updateObservableList() {

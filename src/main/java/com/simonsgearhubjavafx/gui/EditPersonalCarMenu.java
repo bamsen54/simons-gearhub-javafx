@@ -79,7 +79,7 @@ public class EditPersonalCarMenu {
                     final String NAME = nameField.getText();
                     final String CAR_BODY_STYLE = carBodyStyleField.getText();
 
-                    PersonalCar personalCar = new PersonalCar( ID, NAME, "personbil", DAILY_RATE, NUMBER_OF_SEATS, CAR_BODY_STYLE );
+                    PersonalCar personalCar = new PersonalCar( ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, CAR_BODY_STYLE );
 
                     newPersonalCarEntry.setItem( personalCar );
 

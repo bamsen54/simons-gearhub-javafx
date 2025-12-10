@@ -183,7 +183,7 @@ public class EditRacingCarMenu {
                     final String NAME = nameField.getText();
                     final int HORSE_POWER = Integer.parseInt( horsePowerField.getText() );
 
-                    RacingCar racingCar = new RacingCar( ID, NAME, "personbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
+                    RacingCar racingCar = new RacingCar( ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
 
                     newRacingCarEntry.setItem( racingCar );
 
@@ -226,6 +226,5 @@ public class EditRacingCarMenu {
 
         stage.initModality(  Modality.APPLICATION_MODAL );
         stage.showAndWait();
-
     }
 }
