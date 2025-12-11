@@ -97,6 +97,10 @@ public class RentForChosenMemberMenu {
                 // TODO
             }
 
+            catch ( NullPointerException ex ) {
+                // TODO
+            }
+
         } );
 
         buttonsAndDays.setAlignment( Pos.CENTER );

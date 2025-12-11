@@ -35,6 +35,7 @@ public class RentalMenu {
     Predicate<Member> predicate = null;
 
     RentForChosenMemberMenu rentForChosenMemberMenu;
+    ReturnForChosenMemberMenu returnForChosenMemberMenu;
 
     public RentalMenu(MembershipService memberShipService, RentalService rentalService, Inventory inventory, IncomeService incomeService) {
 
@@ -43,7 +44,8 @@ public class RentalMenu {
         this.inventory         = inventory;
         this.incomeService     = incomeService;
 
-        rentForChosenMemberMenu = new RentForChosenMemberMenu( memberShipService, rentalService, inventory, incomeService );
+        rentForChosenMemberMenu   = new RentForChosenMemberMenu( memberShipService, rentalService, inventory, incomeService );
+        returnForChosenMemberMenu = new ReturnForChosenMemberMenu( memberShipService, rentalService, inventory, incomeService );
     }
 
     public void display() {
@@ -65,6 +67,11 @@ public class RentalMenu {
         rentButton.setOnAction( e -> {
             Member member = (Member) members.getSelectionModel().getSelectedItem();
             rentForChosenMemberMenu.display( member );
+        } );
+
+        returnButton.setOnAction( e -> {
+            Member member = (Member) members.getSelectionModel().getSelectedItem();
+            returnForChosenMemberMenu.display( member );
         } );
 
         buttons.getChildren().addAll( rentButton, returnButton );
