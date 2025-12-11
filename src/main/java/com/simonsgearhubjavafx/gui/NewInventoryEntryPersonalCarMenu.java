@@ -1,14 +1,9 @@
 package com.simonsgearhubjavafx.gui;
 
-import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.database.InventoryEntry;
-import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
-import com.simonsgearhubjavafx.member.Member;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -70,9 +65,7 @@ public class NewInventoryEntryPersonalCarMenu {
                 final String BODY_TYPE = bodyStyleField.getText();
                 final double DAILY_RATE = Double.parseDouble( dailyRateField.getText() );
 
-
-
-                PersonalCar personalCar = new PersonalCar( ID, NAME, "personbil", DAILY_RATE, NUMBER_OF_SEATS, BODY_TYPE );
+                PersonalCar personalCar = new PersonalCar( ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, BODY_TYPE );
 
                 newPersonalCarEntry.setItem( personalCar );
 

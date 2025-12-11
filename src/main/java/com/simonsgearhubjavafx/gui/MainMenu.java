@@ -22,6 +22,7 @@ public class MainMenu {
 
     MemberMenu memberMenu;
     ItemMenu itemMenu;
+    RentalMenu rentalMenu;
 
     MainMenu() {
     }
@@ -35,6 +36,7 @@ public class MainMenu {
 
         memberMenu = new MemberMenu( memberShipService, rentalService, inventory, incomeService );
         itemMenu   = new ItemMenu( memberShipService, rentalService, inventory, incomeService );
+        rentalMenu = new RentalMenu( memberShipService, rentalService, inventory, incomeService );
     }
 
     public void display( Stage primaryStage ) {
@@ -43,15 +45,18 @@ public class MainMenu {
         root.getStylesheets().add( MainMenu.class.getResource("/main-menu.css").toExternalForm() );
 
         Button membersButton = new Button("Medlemmar");
-        Button itemsButton = new Button( "Artiklar" );
+        Button itemsButton   = new Button( "Artiklar" );
+        Button rentalButton  = new Button( "Hyr och återlämning" );
 
         membersButton.setOnAction( e ->  memberMenu.display() );
         itemsButton.setOnAction( e -> itemMenu.display() );
+        rentalButton.setOnAction( e -> rentalMenu.display( ) );
+
 
         VBox buttons = new VBox();
         buttons.setAlignment( Pos.CENTER );
 
-        buttons.getChildren().addAll( membersButton, itemsButton );
+        buttons.getChildren().addAll( membersButton, itemsButton, rentalButton );
 
         root.setCenter( buttons );
 
