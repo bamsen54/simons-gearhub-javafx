@@ -20,7 +20,7 @@ public class RentalService {
         LocalDateTime timeOfRental = member.getCurrentRentals().get( index ).getTimeOfRental();
         LocalDateTime timeOfReturn = LocalDateTime.now();
 
-        member.getRentalHistory().add( new HistoryEntry( inventoryEntry.getItem(), timeOfRental, timeOfReturn ) );
+        member.getRentalHistory().add( new HistoryEntry( member, inventoryEntry.getItem(), timeOfRental, timeOfReturn ) );
         member.getCurrentRentals().remove( index );
     }
 }

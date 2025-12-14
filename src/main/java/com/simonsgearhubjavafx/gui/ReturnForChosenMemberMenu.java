@@ -2,11 +2,13 @@ package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
+import com.simonsgearhubjavafx.member.HistoryEntry;
 import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.rental.Rental;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import com.simonsgearhubjavafx.service.RentalService;
+import com.simonsgearhubjavafx.time.LocalDateTimeToString;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
 public class ReturnForChosenMemberMenu {
@@ -71,12 +74,17 @@ public class ReturnForChosenMemberMenu {
 
             member.getCurrentRentals().remove( rental );
 
+
+
+            member.getRentalHistory().add( new HistoryEntry( member, rental.getItem(), rental.getTimeOfRental(), LocalDateTime.now() ) );
+
             final int id = rental.getItem().getId();
 
             if( inventory.getInventory().get( id ) != null ) {
 
                 InventoryEntry inventoryEntryWithID = inventory.getInventory().get( id );
                 inventoryEntryWithID.setQuantityInStore( inventoryEntryWithID.getQuantityInStore() + 1 );
+
             }
 
             this.updateObservableList( member );
