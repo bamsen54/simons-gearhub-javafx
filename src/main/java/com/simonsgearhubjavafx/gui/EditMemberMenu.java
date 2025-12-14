@@ -41,6 +41,8 @@ public class EditMemberMenu {
         pricePolicyLevel.getItems().addAll( Level.values() );
         pricePolicyLevel.setValue( Level.STANDARD );
 
+        String previousMemberLevel = member.getLevel().toString();
+
         idTextField.setText( String.valueOf( newMember.get().getId() ) );
         nameTextField.setText( newMember.get().getName() );
         pricePolicyLevel.setValue( newMember.get().getLevel() );
@@ -49,7 +51,9 @@ public class EditMemberMenu {
         saveButton.setOnAction( e -> {
 
             try {
-                member.setId( Integer.parseInt(idTextField.getText() ) );
+                member.setId( Integer.parseInt( idTextField.getText() ) );
+                member.setName(  nameTextField.getText() );
+                member.setLevel( pricePolicyLevel.getValue() );
             }
 
             catch ( NumberFormatException ex ) {
@@ -57,10 +61,10 @@ public class EditMemberMenu {
                 IO.println( "ID måste vara ett icke-negativt heltal" );
             }
 
-            incomeService.handleEntryFeePaymen( member, pricePolicyLevel.getValue() );
+            incomeService.handleEntryFeePaymen( member, Level.valueOf( previousMemberLevel ) );
+            IO.println( member.getLevel() + " " + previousMemberLevel );
 
-            member.setName(  nameTextField.getText() );
-            member.setLevel( pricePolicyLevel.getValue() );
+
             stage.close();
         } );
 

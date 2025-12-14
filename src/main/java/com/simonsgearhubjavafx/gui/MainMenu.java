@@ -22,6 +22,7 @@ public class MainMenu {
     ItemMenu itemMenu;
     RentalMenu rentalMenu;
     RentalsInfo rentalsInfo;
+    Income income;
 
     MainMenu() {
     }
@@ -37,6 +38,7 @@ public class MainMenu {
         itemMenu    = new ItemMenu( memberShipService, rentalService, inventory, incomeService );
         rentalMenu  = new RentalMenu( memberShipService, rentalService, inventory, incomeService );
         rentalsInfo = new RentalsInfo( memberShipService, rentalService, inventory, incomeService );
+        income      = new Income();
     }
 
     public void display( Stage primaryStage ) {
@@ -48,17 +50,19 @@ public class MainMenu {
         Button itemsButton       = new Button( "Artiklar" );
         Button rentalButton      = new Button( "Hyr och återlämning" );
         Button rentalsInfoButton = new Button( "Hyrningar" );
+        Button incomeButton      = new Button( "Intäkter" );
 
         membersButton.setOnAction( e ->  memberMenu.display() );
         itemsButton.setOnAction( e -> itemMenu.display() );
         rentalButton.setOnAction( e -> rentalMenu.display( ) );
         rentalsInfoButton.setOnAction( e -> rentalsInfo.display() );
+        incomeButton.setOnAction( e ->  income.display( incomeService ) );
 
         VBox buttons = new VBox();
         buttons.setAlignment( Pos.CENTER );
         buttons.setSpacing( 5 );
 
-        buttons.getChildren().addAll( membersButton, itemsButton, rentalButton, rentalsInfoButton );
+        buttons.getChildren().addAll( membersButton, itemsButton, rentalButton, rentalsInfoButton, incomeButton );
 
         root.setCenter( buttons );
 

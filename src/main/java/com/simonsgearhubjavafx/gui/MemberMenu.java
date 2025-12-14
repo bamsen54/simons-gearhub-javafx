@@ -88,7 +88,6 @@ public class MemberMenu {
 
         removeMemberButton.setOnAction( e -> {
             try {
-
                 Member memberToRemove = (Member) members.getSelectionModel().getSelectedItem();
                 memberShipService.getMemberRegistry().removeMember( memberToRemove );
                 membersList.remove( memberToRemove );
