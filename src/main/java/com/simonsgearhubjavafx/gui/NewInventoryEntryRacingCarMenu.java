@@ -68,7 +68,7 @@ public class NewInventoryEntryRacingCarMenu {
                 final int HORSE_POWER = Integer.parseInt(  horsePowerField.getText() );
                 final double DAILY_RATE = Double.parseDouble( dailyRateField.getText() );
 
-                RacingCar racingCar = new RacingCar( ID, NAME, "racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
+                RacingCar racingCar = new RacingCar( ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
 
                 newPersonalCarEntry.setItem( racingCar );
 
