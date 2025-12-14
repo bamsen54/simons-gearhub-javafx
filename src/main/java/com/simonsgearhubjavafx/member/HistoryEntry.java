@@ -7,6 +7,7 @@ import com.simonsgearhubjavafx.time.LocalDateTimeToString;
 
 public class HistoryEntry {
 
+    private Member member;
     private Item item;
     private LocalDateTime rentalDate;
     private LocalDateTime returnDate;
@@ -14,7 +15,8 @@ public class HistoryEntry {
     public HistoryEntry() {
     }
 
-    public HistoryEntry(Item item, LocalDateTime rentalDate, LocalDateTime returnDate) {
+    public HistoryEntry(Member member, Item item, LocalDateTime rentalDate, LocalDateTime returnDate) {
+        this.member = member;
         this.item = item;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
@@ -47,6 +49,9 @@ public class HistoryEntry {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( "medlem: " );
+        stringBuilder.append( this.member );
+        stringBuilder.append( " artikel: " );
         stringBuilder.append( this.item );
         stringBuilder.append( " hyrning: " ).append( LocalDateTimeToString.toString( this.rentalDate ) ).append( " retur: " ).
                 append( LocalDateTimeToString.toString( this.returnDate ) );
