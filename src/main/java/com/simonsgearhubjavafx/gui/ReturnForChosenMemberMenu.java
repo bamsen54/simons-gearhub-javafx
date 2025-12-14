@@ -47,7 +47,7 @@ public class ReturnForChosenMemberMenu {
     public void display(Member member) {
 
         BorderPane root = new BorderPane();
-        root.getStylesheets().add( MemberMenu.class.getResource("/rent-for-chosen-member-menu.css").toExternalForm() );
+        root.getStylesheets().add( MemberMenu.class.getResource( "/rent-for-chosen-member-menu.css").toExternalForm() );
 
         ListView rentals = new ListView();
         rentals.setItems( rentalList );
@@ -79,7 +79,6 @@ public class ReturnForChosenMemberMenu {
                 inventoryEntryWithID.setQuantityInStore( inventoryEntryWithID.getQuantityInStore() + 1 );
             }
 
-
             this.updateObservableList( member );
         } );
 
@@ -87,7 +86,7 @@ public class ReturnForChosenMemberMenu {
         buttons.setAlignment( Pos.CENTER );
         root.setBottom( buttons );
 
-        Scene scene = new Scene(root, 800, 600 );
+        Scene scene = new Scene( root, 800, 600 );
         Stage stage = new Stage();
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
