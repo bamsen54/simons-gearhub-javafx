@@ -1,5 +1,17 @@
 package com.simonsgearhubjavafx.item;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "itemType" // <- Namnet på fältet som sparas i JSON ("itemType": "personal")
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = PersonalCar.class, name = "personal"), // Mappar subklassen till ett namn
+        @JsonSubTypes.Type(value = RacingCar.class, name = "race")          // Mappar subklassen till ett namn
+})
 public abstract class Item {
 
     private int id;

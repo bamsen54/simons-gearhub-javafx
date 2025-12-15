@@ -1,7 +1,10 @@
 package com.simonsgearhubjavafx.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.simonsgearhubjavafx.item.Item;
 
+@JsonIgnoreProperties(ignoreUnknown = true) // <-- FIXA DETTA
 public class InventoryEntry {
 
     private Item item;
@@ -31,10 +34,10 @@ public class InventoryEntry {
         this.quantityInStore = quantityInStore;
     }
 
+    @JsonIgnore
     public int getId() {
         return this.item.getId();
     }
-
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();

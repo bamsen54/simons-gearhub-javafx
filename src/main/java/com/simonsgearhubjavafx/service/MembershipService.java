@@ -10,7 +10,7 @@ public class MembershipService {
     MemberRegistry memberRegistry = new MemberRegistry();
 
     public MembershipService(Inventory inventory) {
-        memberRegistry.loadFromDatabase();
+        //memberRegistry.loadFromDatabase();
     }
 
     public MemberRegistry getMemberRegistry() {

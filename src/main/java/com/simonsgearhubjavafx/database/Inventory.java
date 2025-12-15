@@ -31,4 +31,8 @@ public class Inventory {
     public HashMap<Integer, InventoryEntry> getInventory() {
         return this.inventory;
     }
+
+    public void setInventory(HashMap<Integer, InventoryEntry> inventory) {
+        this.inventory = inventory;
+    }
 }

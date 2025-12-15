@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class MainMenu {
@@ -57,6 +58,8 @@ public class MainMenu {
         rentalButton.setOnAction( e -> rentalMenu.display( ) );
         rentalsInfoButton.setOnAction( e -> rentalsInfo.display() );
         incomeButton.setOnAction( e ->  income.display( incomeService ) );
+
+
 
         VBox buttons = new VBox();
         buttons.setAlignment( Pos.CENTER );

@@ -74,8 +74,6 @@ public class ReturnForChosenMemberMenu {
 
             member.getCurrentRentals().remove( rental );
 
-
-
             member.getRentalHistory().add( new HistoryEntry( member, rental.getItem(), rental.getTimeOfRental(), LocalDateTime.now() ) );
 
             final int id = rental.getItem().getId();
@@ -84,8 +82,10 @@ public class ReturnForChosenMemberMenu {
 
                 InventoryEntry inventoryEntryWithID = inventory.getInventory().get( id );
                 inventoryEntryWithID.setQuantityInStore( inventoryEntryWithID.getQuantityInStore() + 1 );
-
             }
+
+            else
+                inventory.getInventory().put( id, new InventoryEntry( rental.getItem(), 1 ) );
 
             this.updateObservableList( member );
         } );

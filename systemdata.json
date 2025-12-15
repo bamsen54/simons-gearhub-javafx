@@ -1,0 +1,40 @@
+{
+  "members" : [ {
+    "id" : 0,
+    "name" : "Simon",
+    "level" : "STUDENT",
+    "currentRentals" : [ ],
+    "rentalHistory" : [ ]
+  }, {
+    "id" : 1,
+    "name" : "Simona",
+    "level" : "STANDARD",
+    "currentRentals" : [ ],
+    "rentalHistory" : [ ]
+  } ],
+  "inventoryEntries" : [ {
+    "item" : {
+      "itemType" : "personal",
+      "id" : 0,
+      "name" : "volvo v70",
+      "category" : "personbil",
+      "dailyRate" : 500.0,
+      "numberOfSeats" : 5,
+      "bodyStyle" : "vagn"
+    },
+    "quantityInStore" : 5
+  }, {
+    "item" : {
+      "itemType" : "race",
+      "id" : 5,
+      "name" : "Ferrari F2004",
+      "category" : "racingbil",
+      "dailyRate" : 1000.0,
+      "racingDicipline" : "formula 1",
+      "horsePower" : 500
+    },
+    "quantityInStore" : 2
+  } ],
+  "incomeEntryFees" : 0.0,
+  "incomeRentalFees" : 0.0
+}
