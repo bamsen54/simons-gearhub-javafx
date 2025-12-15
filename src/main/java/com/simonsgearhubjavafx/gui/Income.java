@@ -15,11 +15,13 @@ public class Income {
         VBox income = new VBox();
         income.setAlignment( Pos.CENTER );
         income.setSpacing(10);
+        income.setStyle( "-fx-font-size: 18px" );
 
-        Label entryFeeIncome = new Label( incomeService.getIncomeEntryFees() + "" );
-        Label rentalFeeIncome = new Label( incomeService.getIncomeRentalFees() + "" );
+        Label entryFeeIncome = new Label( "inkomst från inträde: " + incomeService.getIncomeEntryFees() + "" );
+        Label rentalFeeIncome = new Label( "inkomst från uthyrningar: " + incomeService.getIncomeRentalFees() + "" );
+        Label total = new Label( "totalt: " + ( incomeService.getIncomeEntryFees() + incomeService.getIncomeRentalFees() ) );
 
-        income.getChildren().addAll( entryFeeIncome,rentalFeeIncome );
+        income.getChildren().addAll( entryFeeIncome,rentalFeeIncome, total );
 
         Scene scene = new Scene( income, 400, 300 );
 
