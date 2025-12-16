@@ -74,7 +74,7 @@ public class ReturnForChosenMemberMenu {
 
             member.getCurrentRentals().remove( rental );
 
-            member.getRentalHistory().add( new HistoryEntry( member, rental.getItem(), rental.getTimeOfRental(), LocalDateTime.now() ) );
+            member.getRentalHistory().add( new HistoryEntry( member, rental.getItem(), null, null ) );
 
             final int id = rental.getItem().getId();
 

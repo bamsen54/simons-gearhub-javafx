@@ -3,6 +3,7 @@ package com.simonsgearhubjavafx.member;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.rental.Rental;
 
@@ -43,6 +44,7 @@ public class Member {
         this.level = level;
     }
 
+    @JsonManagedReference
     public List<Rental> getCurrentRentals() {
         return currentRentals;
     }

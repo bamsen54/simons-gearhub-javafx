@@ -84,6 +84,8 @@ public class MemberMenu {
                 IO.println( "Du måste trycka på en medlem" );
                 // todo alert box
             }
+
+            catch ( NullPointerException ex ) {}
         } );
 
         removeMemberButton.setOnAction( e -> {
@@ -97,6 +99,8 @@ public class MemberMenu {
                 IO.println( "Du måste trycka på en medlem" );
                 // todo alert box
             }
+
+            catch ( NullPointerException ex ) {}
         } );
 
         buttons.getChildren().addAll( addMemberButton,  editMemberButton, removeMemberButton );

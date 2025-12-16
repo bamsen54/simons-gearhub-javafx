@@ -1,6 +1,10 @@
 package com.simonsgearhubjavafx.gui;
 
+import com.simonsgearhubjavafx.SystemData;
 import com.simonsgearhubjavafx.database.Inventory;
+import com.simonsgearhubjavafx.database.InventoryEntry;
+import com.simonsgearhubjavafx.json.SaveAndLoadFromJSON;
+import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import com.simonsgearhubjavafx.service.RentalService;
@@ -11,6 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu {
 
@@ -52,26 +61,77 @@ public class MainMenu {
         Button rentalButton      = new Button( "Hyr och återlämning" );
         Button rentalsInfoButton = new Button( "Hyrningar" );
         Button incomeButton      = new Button( "Intäkter" );
+        Button saveButton        = new Button( "Spara" );
+        Button loadButton        = new Button( "Ladda" );
 
         membersButton.setOnAction( e ->  memberMenu.display() );
         itemsButton.setOnAction( e -> itemMenu.display() );
         rentalButton.setOnAction( e -> rentalMenu.display( ) );
         rentalsInfoButton.setOnAction( e -> rentalsInfo.display() );
         incomeButton.setOnAction( e ->  income.display( incomeService ) );
+        saveButton.setOnAction( e -> {
 
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter( "JSON files (*.json)", "*.json" );
 
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add( extensionFilter );
+            File file = fileChooser.showSaveDialog( primaryStage );
+
+            if( file == null )
+                return;
+
+            List<Member> memberList = new ArrayList<>();
+            for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )
+                memberList.add( memberShipService.getMemberWithID( key ) );
+
+            List<InventoryEntry> inventoryEntries = new ArrayList<>();
+            for( int key: inventory.getInventory().keySet() )
+                inventoryEntries.add( inventory.getInventory().get( key ) );
+
+            double incomeEntryFees = incomeService.getIncomeEntryFees();
+            double incomeRentalFees = incomeService.getIncomeRentalFees();
+
+            SystemData systemData = new SystemData( memberList,  inventoryEntries, incomeRentalFees, incomeEntryFees );
+
+            try {
+                SaveAndLoadFromJSON.saveSystemDataToFile( file.getAbsolutePath(), systemData );
+            }
+            catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            catch ( NullPointerException ex ) {}
+        } );
+
+        loadButton.setOnAction( e -> {
+
+            try {
+
+                FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter( "JSON files (*.json)", "*.json" );
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add( extensionFilter );
+                File file = fileChooser.showOpenDialog( primaryStage );
+
+                if( file == null )
+                    return;
+
+                SaveAndLoadFromJSON.loadSystemDataFromFile( file.getAbsolutePath(), memberShipService, inventory, incomeService );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        } );
 
         VBox buttons = new VBox();
         buttons.setAlignment( Pos.CENTER );
         buttons.setSpacing( 5 );
 
-        buttons.getChildren().addAll( membersButton, itemsButton, rentalButton, rentalsInfoButton, incomeButton );
+        buttons.getChildren().addAll( membersButton, itemsButton, rentalButton, rentalsInfoButton, incomeButton, saveButton, loadButton );
 
         root.setCenter( buttons );
 
         Scene scene = new Scene( root, 400, 400  );
         primaryStage.setScene( scene );
         primaryStage.show();
-
     }
 }

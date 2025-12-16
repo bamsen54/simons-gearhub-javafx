@@ -87,28 +87,18 @@ public class ItemMenu {
             InventoryEntry inventoryEntryToEdit = (InventoryEntry) items.getSelectionModel().getSelectedItem();
             IO.println( inventoryEntryToEdit );
 
-            if( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
-                try {
-                    EditPersonalCarMenu.display( inventoryEntryToEdit );
-                    updateObservableList();
-                }
+            try {
 
-                catch ( RuntimeException ex ) {
-                  //  IO.println( "exception" );
+                if (inventoryEntryToEdit.getItem() instanceof PersonalCar) {
+                    EditPersonalCarMenu.display(inventoryEntryToEdit);
+                    updateObservableList();
+                } else if (inventoryEntryToEdit.getItem() instanceof RacingCar) {
+                    EditRacingCarMenu.display(inventoryEntryToEdit);
+                    updateObservableList();
                 }
             }
 
-            else if( inventoryEntryToEdit.getItem() instanceof RacingCar ) {
-
-                try {
-                    EditRacingCarMenu.display( inventoryEntryToEdit );
-                    updateObservableList();
-                }
-
-                catch ( RuntimeException ex ) {
-                    //  IO.println( "exception" );
-                }
-            }
+            catch (NullPointerException ex) {}
         } );
 
         buttons.setAlignment( Pos.CENTER );
@@ -148,10 +138,9 @@ public class ItemMenu {
                 inventoryEntryList.remove( inventoryEntryToRemove  );
             }
 
-            catch ( IndexOutOfBoundsException ex ) {
-                IO.println( "Du måste trycka på en medlem" );
-                // todo alert box
-            }
+
+
+            catch ( NullPointerException ex ) {}
         } );
 
         Scene scene = new Scene(root, 800, 600 );

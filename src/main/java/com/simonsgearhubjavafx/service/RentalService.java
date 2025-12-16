@@ -17,10 +17,10 @@ public class RentalService {
     public void handleEndRental( InventoryEntry inventoryEntry, Member member, int index ) {
         inventoryEntry.setQuantityInStore( inventoryEntry.getQuantityInStore() + 1 );
 
-        LocalDateTime timeOfRental = member.getCurrentRentals().get( index ).getTimeOfRental();
-        LocalDateTime timeOfReturn = LocalDateTime.now();
+        //LocalDateTime timeOfRental = member.getCurrentRentals().get( index ).getTimeOfRental();
 
-        member.getRentalHistory().add( new HistoryEntry( member, inventoryEntry.getItem(), timeOfRental, timeOfReturn ) );
+
+        member.getRentalHistory().add( new HistoryEntry( member, inventoryEntry.getItem(), null, null ) );
         member.getCurrentRentals().remove( index );
     }
 }

@@ -190,6 +190,7 @@ public class EditRacingCarMenu {
                     newInventoryEntry.set( newRacingCarEntry );
 
                     inventoryEntry.setItem( racingCar );
+                    inventoryEntry.setQuantityInStore( Integer.parseInt( quantityField.getText() ) );
                 }
 
                 catch ( NumberFormatException ex ) {
