@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,14 @@ public class MainMenu {
         incomeButton.setOnAction( e ->  income.display( incomeService ) );
         saveButton.setOnAction( e -> {
 
+            FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter( "JSON files (*.json)", "*.json" );
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add( extensionFilter );
+            File file = fileChooser.showSaveDialog( primaryStage );
+
+            if( file == null )
+                return;
 
             List<Member> memberList = new ArrayList<>();
             for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )
@@ -85,16 +94,29 @@ public class MainMenu {
             SystemData systemData = new SystemData( memberList,  inventoryEntries, incomeRentalFees, incomeEntryFees );
 
             try {
-                SaveAndLoadFromJSON.saveSystemDataToFile( "systemdata.json", systemData );
-            } catch (IOException ex) {
+                SaveAndLoadFromJSON.saveSystemDataToFile( file.getAbsolutePath(), systemData );
+            }
+            catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
+            catch ( NullPointerException ex ) {}
         } );
 
         loadButton.setOnAction( e -> {
 
             try {
-                SaveAndLoadFromJSON.loadSystemDataFromFile( "systemdata.json", memberShipService, inventory, incomeService );
+
+                FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter( "JSON files (*.json)", "*.json" );
+
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add( extensionFilter );
+                File file = fileChooser.showOpenDialog( primaryStage );
+
+                if( file == null )
+                    return;
+
+                SaveAndLoadFromJSON.loadSystemDataFromFile( file.getAbsolutePath(), memberShipService, inventory, incomeService );
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
