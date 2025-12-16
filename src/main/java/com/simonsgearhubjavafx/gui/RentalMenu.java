@@ -65,13 +65,20 @@ public class RentalMenu {
         Button returnButton = new Button( "Återlämna" );
 
         rentButton.setOnAction( e -> {
-            Member member = (Member) members.getSelectionModel().getSelectedItem();
-            rentForChosenMemberMenu.display( member );
+
+            try {
+                Member member = (Member) members.getSelectionModel().getSelectedItem();
+                rentForChosenMemberMenu.display(member);
+            }
+            catch (NullPointerException ex) {}
         } );
 
         returnButton.setOnAction( e -> {
-            Member member = (Member) members.getSelectionModel().getSelectedItem();
-            returnForChosenMemberMenu.display( member );
+            try {
+                Member member = (Member) members.getSelectionModel().getSelectedItem();
+                returnForChosenMemberMenu.display(member);
+            }
+            catch (NullPointerException ex) {}
         } );
 
         buttons.getChildren().addAll( rentButton, returnButton );

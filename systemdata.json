@@ -16,12 +16,7 @@
       },
       "rentalDate" : null,
       "returnDate" : null
-    } ]
-  }, {
-    "id" : 1,
-    "name" : "Simona",
-    "level" : "STANDARD",
-    "currentRentals" : [ {
+    }, {
       "item" : {
         "itemType" : "personal",
         "id" : 0,
@@ -31,9 +26,27 @@
         "numberOfSeats" : 5,
         "bodyStyle" : "vagn"
       },
-      "duration" : "2"
-    } ],
-    "rentalHistory" : [ ]
+      "rentalDate" : null,
+      "returnDate" : null
+    } ]
+  }, {
+    "id" : 1,
+    "name" : "Simona",
+    "level" : "STANDARD",
+    "currentRentals" : [ ],
+    "rentalHistory" : [ {
+      "item" : {
+        "itemType" : "personal",
+        "id" : 0,
+        "name" : "volvo v70",
+        "category" : "personbil",
+        "dailyRate" : 500.0,
+        "numberOfSeats" : 5,
+        "bodyStyle" : "vagn"
+      },
+      "rentalDate" : null,
+      "returnDate" : null
+    } ]
   } ],
   "inventoryEntries" : [ {
     "item" : {
@@ -45,7 +58,7 @@
       "numberOfSeats" : 5,
       "bodyStyle" : "vagn"
     },
-    "quantityInStore" : 4
+    "quantityInStore" : 5
   }, {
     "item" : {
       "itemType" : "race",
@@ -58,6 +71,6 @@
     },
     "quantityInStore" : 2
   } ],
-  "incomeEntryFees" : 1000.0,
-  "incomeRentalFees" : 850.0
+  "incomeEntryFees" : 0.0,
+  "incomeRentalFees" : 0.0
 }
