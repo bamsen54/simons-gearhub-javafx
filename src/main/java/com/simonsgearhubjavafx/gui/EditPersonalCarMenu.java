@@ -70,7 +70,7 @@ public class EditPersonalCarMenu {
             if( !anyEmpty && numericalFieldsAreNumeric) {
 
                 InventoryEntry newPersonalCarEntry = new InventoryEntry();
-                newPersonalCarEntry.setQuantityInStore(Integer.parseInt( quantityField.getText() ) );
+                newPersonalCarEntry.setQuantityInStore( Integer.parseInt( quantityField.getText() ) );
 
                 try {
                     final int ID = Integer.parseInt(idField.getText());
@@ -83,9 +83,11 @@ public class EditPersonalCarMenu {
 
                     newPersonalCarEntry.setItem( personalCar );
 
+
                     newInventoryEntry.set( newPersonalCarEntry );
 
                     inventoryEntry.setItem( personalCar );
+                    inventoryEntry.setQuantityInStore(  Integer.parseInt( quantityField.getText() ) );
                 }
 
                 catch ( NumberFormatException ex ) {
