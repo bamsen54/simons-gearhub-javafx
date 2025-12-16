@@ -7,13 +7,10 @@ module com.simonsgearhubjavafx {
     requires javafx.base;
     requires com.fasterxml.jackson.databind;
 
-
-    // FÖR JSON PERSISTENCE (kompletteringar):
     opens com.simonsgearhubjavafx to com.fasterxml.jackson.databind;        // Tillåter Jackson komma åt SystemData (om den ligger i rot)
     opens com.simonsgearhubjavafx.member to com.fasterxml.jackson.databind;   // Tillåter Jackson komma åt Member (den du fixade)
     opens com.simonsgearhubjavafx.database to com.fasterxml.jackson.databind; // Databas/I/O
 
-    // NYA OBLIGATORISKA RADER FÖR DINA MODELLER:
     opens com.simonsgearhubjavafx.item to com.fasterxml.jackson.databind;     // För Item, PersonalCar, RaceCar, etc.
     opens com.simonsgearhubjavafx.rental to com.fasterxml.jackson.databind;   // För Rental-klassen
     opens com.simonsgearhubjavafx.policy to com.fasterxml.jackson.databind;   // Om du har dataklasser här
@@ -27,7 +24,6 @@ module com.simonsgearhubjavafx {
     exports com.simonsgearhubjavafx.rental;
     exports com.simonsgearhubjavafx.service;
     exports com.simonsgearhubjavafx.json;
-
 
 
     exports com.simonsgearhubjavafx;
