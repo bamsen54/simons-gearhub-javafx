@@ -53,8 +53,8 @@ public class HistoryEntry {
         stringBuilder.append( this.member );
         stringBuilder.append( " artikel: " );
         stringBuilder.append( this.item );
-        stringBuilder.append( " hyrning: " ).append( LocalDateTimeToString.toString( this.rentalDate ) ).append( " retur: " ).
-                append( LocalDateTimeToString.toString( this.returnDate ) );
+        //stringBuilder.append( " hyrning: " ).append( LocalDateTimeToString.toString( this.rentalDate ) ).append( " retur: " ).
+                //append( LocalDateTimeToString.toString( this.returnDate ) );
         return stringBuilder.toString();
     }
 }

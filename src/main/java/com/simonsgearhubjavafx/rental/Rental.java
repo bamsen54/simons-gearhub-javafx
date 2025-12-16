@@ -2,6 +2,7 @@ package com.simonsgearhubjavafx.rental;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.time.LocalDateTimeToString;
@@ -23,6 +24,7 @@ public class Rental {
         this.timeOfRental = LocalDateTime.now();
     }
 
+    @JsonBackReference // <-- Jackson ignorerar denna vid serialisering
     public Member getMember() {
         return this.member;
     }
@@ -47,9 +49,9 @@ public class Rental {
         this.duration = duration;
     }
 
-    public LocalDateTime getTimeOfRental() {
-        return this.timeOfRental;
-    }
+    //public LocalDateTime getTimeOfRental() {
+       // return this.timeOfRental;
+    //}
 
     public String toString() {
 
@@ -58,7 +60,7 @@ public class Rental {
         stringBuilder.append( this.member.getName() ).append( " hyr " ).
                 append( this.item ).append( " i " ).append( this.duration ).append( " dagar " );
 
-        stringBuilder.append( "tid: " ).append( LocalDateTimeToString.toString( this.timeOfRental ) );
+        //stringBuilder.append( "tid: " ).append( LocalDateTimeToString.toString( this.timeOfRental ) );
 
         return stringBuilder.toString();
     }

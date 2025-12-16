@@ -30,14 +30,15 @@ public class SaveAndLoadFromJSON {
         SystemData systemData = mapper.readValue( new File(path), SystemData.class );
 
         MemberRegistry memberRegistry = new MemberRegistry();
-
         for( Member member : systemData.getMembers() )
             memberRegistry.addMember( member );
 
         memberShipService.setMemberRegistry( memberRegistry );
 
+        inventory.getInventory().clear();
         for( InventoryEntry e: systemData.getInventoryEntries() )
             inventory.getInventory().put( e.getItem().getId(), e );
+
 
         incomeService.setIncomeEntryFees(  systemData.getIncomeEntryFees() );
         incomeService.setIncomeRentalFees( systemData.getIncomeRentalFees() );
