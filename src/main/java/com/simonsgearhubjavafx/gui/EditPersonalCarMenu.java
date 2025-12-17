@@ -84,21 +84,17 @@ public class EditPersonalCarMenu {
 
 
                     boolean idAlreadyExists = false;
-                    int counter = 0;
 
                     for( int ids: inventory.getInventory().keySet() ) {
 
-                        InventoryEntry entry = inventory.getInventory().get(ids);
+                        InventoryEntry entry = inventory.getInventory().get( ids );
 
                         if( entry.getId() == ID )
-                            counter++;
+                            idAlreadyExists = true;
                     }
 
-                    if( counter > 0 )
-                        idAlreadyExists = true;
-
-                    if( idAlreadyExists ) {
-                        AlertBox.display( "id", "artikel med det id:t finns redan" );
+                    if ( idAlreadyExists ) {
+                        AlertBox.display("id", "artikel med det id:t finns redan");
                         stage.close();
                         return;
                     }

@@ -48,9 +48,9 @@
   }, {
     "item" : {
       "itemType" : "personal",
-      "id" : 3,
+      "id" : 45,
       "name" : "Audi A3",
-      "category" : "personbil",
+      "category" : "Personbil",
       "dailyRate" : 400.0,
       "numberOfSeats" : 5,
       "bodyStyle" : "Hatchback"

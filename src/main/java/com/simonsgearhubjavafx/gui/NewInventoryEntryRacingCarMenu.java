@@ -74,12 +74,21 @@ public class NewInventoryEntryRacingCarMenu {
 
                     RacingCar racingCar = new RacingCar(ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER);
 
-                    if ( inventory.getInventory().containsKey( ID ) ) {
+                    boolean idAlreadyExists = false;
+
+                    for( int ids: inventory.getInventory().keySet() ) {
+
+                        InventoryEntry entry = inventory.getInventory().get( ids );
+
+                        if( entry.getId() == ID )
+                            idAlreadyExists = true;
+                    }
+
+                    if ( idAlreadyExists ) {
                         AlertBox.display("id", "artikel med det id:t finns redan");
                         stage.close();
                         return;
                     }
-                    newPersonalCarEntry.setItem(racingCar);
 
                     newInventoryEntry.set(newPersonalCarEntry);
 
