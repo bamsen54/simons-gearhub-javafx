@@ -26,7 +26,7 @@ public class EditMemberMenu {
         Stage stage = new Stage();
 
         GridPane root = new GridPane();
-        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-member-menu.css" ).toExternalForm() );
+        root.getStylesheets().add( NewMemberMenu.class.getResource("/forms.css").toExternalForm() );
 
         root.setHgap( 25 );
         root.setVgap( 15 );

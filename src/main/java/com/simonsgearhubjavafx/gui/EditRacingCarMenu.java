@@ -29,7 +29,7 @@ public class EditRacingCarMenu {
         Stage stage = new Stage();
 
         GridPane root = new GridPane();
-        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-inventoryentry-menu.css" ).toExternalForm() );
+        root.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
 
         Label id = new Label( "Id" );
         TextField idField = new TextField();

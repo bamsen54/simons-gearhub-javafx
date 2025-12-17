@@ -46,7 +46,7 @@ public class RentalsInfo {
     public void display() {
 
         BorderPane root = new BorderPane();
-        root.getStylesheets().add( MemberMenu.class.getResource("/member-menu.css").toExternalForm() );
+        root.getStylesheets().add( MemberMenu.class.getResource("/rentals-info.css").toExternalForm() );
 
         ListView rentals = new ListView();
         rentals.setPrefWidth( 800 );

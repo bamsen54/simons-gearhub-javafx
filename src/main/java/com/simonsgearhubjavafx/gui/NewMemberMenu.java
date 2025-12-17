@@ -11,8 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class NewMemberMenu {
 
     public static void display(Member member, MembershipService membershipService, IncomeService incomeService) {
@@ -20,7 +18,7 @@ public class NewMemberMenu {
         Stage stage = new Stage();
 
         GridPane root = new GridPane();
-        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-member-menu.css" ).toExternalForm() );
+        root.getStylesheets().add( NewMemberMenu.class.getResource("/forms.css").toExternalForm() );
 
         root.setHgap( 25 );
         root.setVgap( 15 );
