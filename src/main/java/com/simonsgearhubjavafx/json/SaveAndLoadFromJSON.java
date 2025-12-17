@@ -17,17 +17,31 @@ public class SaveAndLoadFromJSON {
 
     public static void saveSystemDataToFile(String path, SystemData systemData) throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable( SerializationFeature.INDENT_OUTPUT );
+        if( systemData == null ) {
+            throw new IllegalArgumentException( "systemData får inte vara null vid sparning" );
+        }
 
-        mapper.writeValue( new File(path), systemData );
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        mapper.writeValue(new File(path), systemData);
     }
 
     public static  void  loadSystemDataFromFile(String path, MembershipService memberShipService, Inventory inventory, IncomeService incomeService) throws IOException {
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable( SerializationFeature.INDENT_OUTPUT );
 
         SystemData systemData = mapper.readValue( new File(path), SystemData.class );
+
+        if( systemData == null )
+            throw new IOException( "Filens format matchar inte" );
+
+        if( systemData.getMembers() == null || systemData.getInventoryEntries() == null )
+            throw new IOException( "Filens format matchar inte" );
+
+        if( systemData.getIncomeEntryFees() < 0 || systemData.getIncomeRentalFees() < 0 )
+            throw new IOException( "Filens format matchar inte" );
 
         MemberRegistry memberRegistry = new MemberRegistry();
         for( Member member : systemData.getMembers() )

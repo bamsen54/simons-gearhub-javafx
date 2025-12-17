@@ -97,7 +97,8 @@ public class MainMenu {
                 SaveAndLoadFromJSON.saveSystemDataToFile( file.getAbsolutePath(), systemData );
             }
             catch (IOException ex) {
-                throw new RuntimeException(ex);
+
+                AlertBox.display( "spara", "sparandet gick ej" );
             }
 
             catch ( NullPointerException ex ) {}
@@ -117,8 +118,11 @@ public class MainMenu {
                     return;
 
                 SaveAndLoadFromJSON.loadSystemDataFromFile( file.getAbsolutePath(), memberShipService, inventory, incomeService );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+            }
+
+            catch (IOException ex) {
+
+                AlertBox.display( "ladda", "filen du försöka ladda är korrupt" );
             }
         } );
 
