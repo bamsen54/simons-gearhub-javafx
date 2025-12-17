@@ -12,7 +12,7 @@ public class Rental {
     private Member member;
     private Item item;
     private String duration;
-    private LocalDateTime timeOfRental;
+    private String rentalDate;
 
     public Rental() {
     }
@@ -21,7 +21,7 @@ public class Rental {
         this.member = member;
         this.item = item;
         this.duration = duration;
-        this.timeOfRental = LocalDateTime.now();
+        this.rentalDate = LocalDateTimeToString.toString( LocalDateTime.now() );
     }
 
     @JsonBackReference // <-- Jackson ignorerar denna vid serialisering
@@ -49,16 +49,21 @@ public class Rental {
         this.duration = duration;
     }
 
-    //public LocalDateTime getTimeOfRental() {
-       // return this.timeOfRental;
-    //}
+    public String getRentalDate() {
+        return rentalDate;
+    }
+
+    public void setRentalDate(String rentalDate) {
+        this.rentalDate = rentalDate;
+    }
 
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append( this.member.getName() ).append( " hyr " ).
-                append( this.item ).append( " i " ).append( this.duration ).append( " dagar " );
+        stringBuilder.append( this.member.getId() ).append( " " );
+        stringBuilder.append( this.member.getName() ).append( " " ).append( this.member.getLevel() ).append( " hyr " ).
+                append( this.item ).append( " i " ).append( this.duration ).append( " dagar hyrning " ).append(  this.rentalDate );
 
         //stringBuilder.append( "tid: " ).append( LocalDateTimeToString.toString( this.timeOfRental ) );
 
