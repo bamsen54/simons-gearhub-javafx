@@ -57,7 +57,7 @@ public class EditMemberMenu {
             }
 
             catch ( NumberFormatException ex ) {
-                AlertBox.display( "id", "id måste vara ett icke-negativt heltal" );
+                AlertBox.display( "id", "id:t måste vara ett icke-negativt heltal" );
                 stage.close();
                 return;
             }
@@ -95,7 +95,7 @@ public class EditMemberMenu {
 
             catch ( NumberFormatException ex ) {
                 // todo
-                IO.println( "ID måste vara ett icke-negativt heltal" );
+                IO.println( "id:t måste vara ett icke-negativt heltal" );
             }
 
             incomeService.handleEntryFeePaymen( member, Level.valueOf( previousMemberLevel ) );

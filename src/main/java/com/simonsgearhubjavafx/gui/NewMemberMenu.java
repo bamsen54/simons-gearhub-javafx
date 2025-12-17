@@ -2,6 +2,7 @@ package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.service.IncomeService;
 import com.simonsgearhubjavafx.service.MembershipService;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,8 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class NewMemberMenu {
 
-    public static void display(Member member, MembershipService membershipService) {
-
+    public static void display(Member member, MembershipService membershipService, IncomeService incomeService) {
 
         Stage stage = new Stage();
 
@@ -46,10 +46,14 @@ public class NewMemberMenu {
 
                 boolean idAlreadyExists = membershipService.getMemberWithID( Integer.parseInt( id ) ) != null;
 
-                if (!id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty() && !idAlreadyExists) {
+                if ( !id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty() && !idAlreadyExists ) {
                     member.setId( Integer.parseInt(id) );
-                    member.setName(nameTextField.getText());
+                    member.setName( nameTextField.getText() );
                     member.setLevel( level );
+
+
+                    incomeService.handleEntryFeePaymen( member, null );
+
                     stage.close();
 
                 } else {
@@ -58,7 +62,9 @@ public class NewMemberMenu {
                 }
             }
 
-            catch ( NumberFormatException ex ) { IO.println( "Number format new Member Menu" ); }
+            catch ( NumberFormatException ex ) {
+                AlertBox.display( "id", "id:t måste vara ett icke-negativt heltal" );
+            }
             catch ( NullPointerException ex ) { IO.println( "Null" );}
 
         } );
@@ -71,7 +77,7 @@ public class NewMemberMenu {
         root.add( pricePolicyLevel, 1, 2 );
         root.add( addNewMemberButton, 0, 3 );
 
-        GridPane.setMargin(addNewMemberButton, new Insets(0, 0, 0, 10) );
+        GridPane.setMargin( addNewMemberButton, new Insets(0, 0, 0, 10 ) );
 
         Scene scene = new Scene( root, 400, 300 );
         stage.setScene( scene );

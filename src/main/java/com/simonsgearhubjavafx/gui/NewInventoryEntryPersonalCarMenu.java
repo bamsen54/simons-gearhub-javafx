@@ -53,8 +53,6 @@ public class NewInventoryEntryPersonalCarMenu {
             boolean numericalFieldsAreNumeric = numberOfSeatsField.getText().matches( "[0-9]+" )
                                               && quantityField.getText().matches( "[0-9]+" );
 
-
-
             if( !anyEmpty && numericalFieldsAreNumeric) {
 
                 try {
@@ -62,7 +60,7 @@ public class NewInventoryEntryPersonalCarMenu {
                     InventoryEntry newPersonalCarEntry = new InventoryEntry();
                     newPersonalCarEntry.setQuantityInStore(Integer.parseInt(quantityField.getText()));
 
-                    final int ID = Integer.parseInt(idField.getText());
+                    final int ID = Integer.parseInt( idField.getText() );
                     final String NAME = nameField.getText();
                     final int NUMBER_OF_SEATS = Integer.parseInt(numberOfSeatsField.getText());
                     final String BODY_TYPE = bodyStyleField.getText();
@@ -83,7 +81,15 @@ public class NewInventoryEntryPersonalCarMenu {
                     stage.close();
                 }
 
-                catch ( NumberFormatException ex ) {}
+                catch ( NumberFormatException ex ) {
+
+                }
+            }
+
+            else {
+                AlertBox.display( "format", "se till att inga fält är tomma och att de som ska innehålla heltal gör det" );
+
+                stage.close();
             }
         } );
 

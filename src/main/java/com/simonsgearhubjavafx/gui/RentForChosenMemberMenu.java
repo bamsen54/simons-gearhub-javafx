@@ -46,6 +46,8 @@ public class RentForChosenMemberMenu {
 
     public void display(Member member) {
 
+        Stage stage = new Stage();
+
         BorderPane root = new BorderPane();
         root.getStylesheets().add( MemberMenu.class.getResource("/rent-for-chosen-member-menu.css").toExternalForm() );
 
@@ -75,18 +77,27 @@ public class RentForChosenMemberMenu {
         Button rent = new  Button( "Hyr" );
         rent.setOnAction( e -> {
 
+
+
             try {
-                int daysToRent = Integer.parseInt(daysField.getText() );
+                int daysToRent = Integer.parseInt( daysField.getText() );
+
+                if( daysToRent < 1 ) {
+
+                    AlertBox.display( "hyrning", "antal dagar måste vara större än 1" );
+                    stage.close();
+                    return;
+                }
 
                 InventoryEntry inventoryEntrySelected = (InventoryEntry) items.getSelectionModel().getSelectedItem();
 
                 if( inventoryEntrySelected.getQuantityInStore() <= 0 )
                     return;
 
-                Rental rental = new Rental(member, inventoryEntrySelected.getItem(), daysField.getText());
+                Rental rental = new Rental( member, inventoryEntrySelected.getItem(), daysField.getText() );
 
-                member.addToCurrentRentals(rental);
-                inventoryEntrySelected.setQuantityInStore(inventoryEntrySelected.getQuantityInStore() - 1);
+                member.addToCurrentRentals( rental );
+                inventoryEntrySelected.setQuantityInStore( inventoryEntrySelected.getQuantityInStore() - 1 );
 
                 this.updateObservableList();
 
@@ -109,7 +120,6 @@ public class RentForChosenMemberMenu {
         root.setBottom( buttonsAndDays );
 
         Scene scene = new Scene(root, 800, 600 );
-        Stage stage = new Stage();
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();

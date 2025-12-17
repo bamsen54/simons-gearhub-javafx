@@ -51,7 +51,7 @@ public class AlertBox {
 
         root.setBottom( buttonBox );
 
-        Scene scene = new Scene( root, 400, 300 );
+        Scene scene = new Scene( root, 600, 600 );
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.setTitle( title );

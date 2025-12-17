@@ -37,7 +37,7 @@ public class EditRacingCarMenu {
         Label name = new Label( "Namn" );
         TextField nameField = new TextField();
 
-        Label racingDicipline          = new Label( "racingtyp" );
+        Label racingDicipline          = new Label( "Racingtyp" );
         TextField racingDiciplineField = new TextField();
 
         Label horsePower          = new Label( "Hästkrafter" );
@@ -118,6 +118,13 @@ public class EditRacingCarMenu {
                     // todo message to user
                     return;
                 }
+
+                stage.close();
+            }
+
+            else {
+
+                AlertBox.display( "format", "se till att inga fält är tomma och att de som ska innehålla heltal gör det" );
 
                 stage.close();
             }

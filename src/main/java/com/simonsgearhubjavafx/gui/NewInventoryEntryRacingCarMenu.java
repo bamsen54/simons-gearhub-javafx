@@ -87,6 +87,13 @@ public class NewInventoryEntryRacingCarMenu {
 
                 catch ( NumberFormatException ex ) {}
             }
+
+            else {
+
+                AlertBox.display( "format", "se till att inga fält är tomma och att de som ska innehålla heltal gör det" );
+
+                stage.close();
+            }
         } );
 
         root.add( id, 0, 0 );

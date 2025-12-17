@@ -64,7 +64,7 @@ public class MemberMenu {
 
             try {
                 Member newMember = new Member();
-                NewMemberMenu.display( newMember, memberShipService );
+                NewMemberMenu.display( newMember, memberShipService, incomeService );
 
 
                 if ( newMember != null && memberShipService.getMemberWithID( newMember.getId() ) == null ) {
