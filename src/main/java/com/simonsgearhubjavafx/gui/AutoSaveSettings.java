@@ -17,7 +17,6 @@ public class AutoSaveSettings {
         BorderPane root = new BorderPane();
         root.getStylesheets().add( AutoSaveSettings.class.getResource("/autosave-settings.css").toExternalForm() );
 
-
         Scene scene = new Scene( root, 400, 400 );
 
         ToggleButton autoSaveToggle = new ToggleButton( "Auto Save" );

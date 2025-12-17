@@ -22,7 +22,6 @@ GridPane {
 
 }
 
-/* Själva listan */
 .list-view {
     -fx-background-color: #333333;
     -fx-background-insets: 0;
@@ -30,28 +29,27 @@ GridPane {
     -fx-border-color: #444444;
 }
 
-/* De enskilda raderna */
+
 .list-cell {
-    -fx-background-color: transparent; /* Låter list-view-färgen synas igenom */
+    -fx-background-color: transparent;
     -fx-text-fill: #A9B7C6;
-    -fx-padding: 10 15; /* Lite mer luft för en lyxigare känsla */
+    -fx-padding: 10 15;
 }
 
-/* När man håller musen över (Hovring) */
+
 .list-cell:hover {
     -fx-background-color: #3d3d3d;
     -fx-text-fill: #ffffff;
 }
 
-/* Den valda raden (Istället för blå) */
+
 .list-cell:filled:selected {
-    -fx-background-color: #4a545e; /* Subtil gråblå/slate */
+    -fx-background-color: #4a545e;
     -fx-text-fill: white;
-    /* En liten detalj: en ljusare kant på toppen för djup */
+
     -fx-border-color: #5a646e transparent #3a444e transparent;
 }
 
-/* Fix för att ta bort den fula fokus-ramen som JavaFX lägger till som standard */
 .list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
     -fx-background-color: #4a545e;
 }

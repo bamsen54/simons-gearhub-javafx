@@ -90,12 +90,8 @@ public class EditPersonalCarMenu {
 
                         InventoryEntry entry = inventory.getInventory().get(ids);
 
-                        if( entry == inventoryEntry )
-                            continue;
-
-                        if( ids == ID )
+                        if( entry.getId() == ID )
                             counter++;
-
                     }
 
                     if( counter > 0 )
@@ -159,8 +155,5 @@ public class EditPersonalCarMenu {
 
         stage.initModality(  Modality.APPLICATION_MODAL );
         stage.showAndWait();
-
-
-        //return newInventoryEntry.get();
     }
 }

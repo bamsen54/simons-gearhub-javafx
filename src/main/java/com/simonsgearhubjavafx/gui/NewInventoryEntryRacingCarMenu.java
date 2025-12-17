@@ -124,7 +124,6 @@ public class NewInventoryEntryRacingCarMenu {
         stage.initModality(  Modality.APPLICATION_MODAL );
         stage.showAndWait();
 
-
         return newInventoryEntry.get();
     }
 }

@@ -70,12 +70,9 @@ public class EditMemberMenu {
 
             for( int id: membershipService.getMemberRegistry().getMembers().keySet() ) {
 
-               Member memberToCheck = membershipService.getMemberRegistry().getMembers().get( id );
+                Member memberAtID = membershipService.getMemberRegistry().getMember( id );
 
-               if( memberToCheck == member )
-                   continue;
-
-               if( id == newID  )
+                if( memberAtID.getId() == newID )
                     counter++;
             }
 
@@ -83,6 +80,8 @@ public class EditMemberMenu {
                 idAlreadyExists = true;
 
             IO.println( "counter: " + counter );
+
+
 
             if( idAlreadyExists ) {
                 AlertBox.display( "id", "medlem med det id:t finns redan" );

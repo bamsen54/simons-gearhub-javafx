@@ -15,9 +15,9 @@
   "inventoryEntries" : [ {
     "item" : {
       "itemType" : "personal",
-      "id" : 0,
+      "id" : 30,
       "name" : "Volvo XC90",
-      "category" : "personbil",
+      "category" : "Personbil",
       "dailyRate" : 850.0,
       "numberOfSeats" : 7,
       "bodyStyle" : "SUV"

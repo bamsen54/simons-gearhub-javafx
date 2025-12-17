@@ -30,7 +30,6 @@ public class ItemMenu {
     Inventory inventory;
     IncomeService incomeService;
 
-
     final ObservableList<InventoryEntry> inventoryEntryList = FXCollections.observableArrayList();
     FilteredList<InventoryEntry> filteredList = new FilteredList( inventoryEntryList );
 

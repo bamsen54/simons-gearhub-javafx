@@ -13,30 +13,17 @@ import javafx.stage.Stage;
 public class AlertBox {
 
     public static void display(String title, String message) {
-//
-//        Stage stage = new Stage();
-//        VBox root = new VBox();
-//
-//        root.setAlignment( Pos.CENTER );
-//        Label messageLabel = new Label( message );
-//        messageLabel.setStyle( "-fx-font-size: 18px; " );
-//        root.getChildren().addAll( messageLabel );
-//        messageLabel.setAlignment(Pos.CENTER );
-//        Scene scene = new Scene( root , 400, 300 );
-//        stage.setTitle( title );
-//        stage.setScene( scene );
-//        stage.initModality( Modality.APPLICATION_MODAL );
-//        stage.setResizable( false );
-//        stage.show();
 
         Stage stage = new Stage();
 
-
         BorderPane root = new BorderPane();
+        root.setStyle( "-fx-background-color: red;" +
+                "-fx-text-fill: white;" );
 
         VBox messageBox = new VBox();
         Label messageLabel = new Label( message );
         messageLabel.setStyle( "-fx-font-size: 18px;" );
+        messageLabel.setStyle( "-fx-text-fill: white;" );
         messageBox.getChildren().add( messageLabel );
         messageBox.setAlignment( Pos.CENTER );
 
@@ -44,6 +31,7 @@ public class AlertBox {
 
         HBox buttonBox = new HBox();
         Button okayButton = new Button( "OK" );
+        okayButton.setStyle( "-fx-pref-width: 50px;" + "-fx-font-size: 16px" );
         buttonBox.getChildren().add( okayButton );
         buttonBox.setAlignment( Pos.CENTER );
 

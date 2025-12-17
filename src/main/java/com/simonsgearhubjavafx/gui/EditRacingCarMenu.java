@@ -83,6 +83,7 @@ public class EditRacingCarMenu {
                     final String NAME = nameField.getText();
                     final int HORSE_POWER = Integer.parseInt( horsePowerField.getText() );
 
+
                     boolean idAlreadyExists = false;
                     int counter = 0;
 
@@ -90,10 +91,7 @@ public class EditRacingCarMenu {
 
                         InventoryEntry entry = inventory.getInventory().get(ids);
 
-                        if( entry == inventoryEntry )
-                            continue;
-
-                        if( ids == ID )
+                        if( entry.getId() == ID )
                             counter++;
                     }
 
