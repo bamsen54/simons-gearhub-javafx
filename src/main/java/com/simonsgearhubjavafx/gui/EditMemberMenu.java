@@ -72,6 +72,9 @@ public class EditMemberMenu {
 
                 Member memberAtID = membershipService.getMemberRegistry().getMember( id );
 
+                if( memberAtID == member )
+                    continue;
+
                 if( memberAtID.getId() == newID )
                     counter++;
             }
@@ -80,8 +83,6 @@ public class EditMemberMenu {
                 idAlreadyExists = true;
 
             IO.println( "counter: " + counter );
-
-
 
             if( idAlreadyExists ) {
                 AlertBox.display( "id", "medlem med det id:t finns redan" );
@@ -96,8 +97,7 @@ public class EditMemberMenu {
             }
 
             catch ( NumberFormatException ex ) {
-                // todo
-                IO.println( "id:t måste vara ett icke-negativt heltal" );
+
             }
 
             incomeService.handleEntryFeePaymen( member, Level.valueOf( previousMemberLevel ) );

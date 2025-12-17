@@ -99,10 +99,13 @@ public class EditPersonalCarMenu {
                         return;
                     }
 
+                    inventory.getInventory().remove( inventoryEntry.getId() );
+
                     PersonalCar personalCar = new PersonalCar( ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, CAR_BODY_STYLE );
 
-                    newPersonalCarEntry.setItem( personalCar );
+                    inventory.getInventory().put(Integer.valueOf(idField.getText()), new InventoryEntry( personalCar,  Integer.parseInt(  quantityField.getText()  ) )  );
 
+                    newPersonalCarEntry.setItem( personalCar );
 
                     newInventoryEntry.set( newPersonalCarEntry );
 

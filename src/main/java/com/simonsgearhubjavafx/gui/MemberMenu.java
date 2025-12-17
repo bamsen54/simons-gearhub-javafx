@@ -19,7 +19,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.SQLException;
 import java.util.function.Predicate;
 import java.util.regex.PatternSyntaxException;
 
@@ -66,7 +65,6 @@ public class MemberMenu {
                 Member newMember = new Member();
                 NewMemberMenu.display( newMember, memberShipService, incomeService );
 
-
                 if ( newMember != null && memberShipService.getMemberWithID( newMember.getId() ) == null ) {
                     memberShipService.getMemberRegistry().addMember(newMember);
                     this.updateObservableList();
@@ -81,16 +79,18 @@ public class MemberMenu {
             try {
                 Member member = (Member) members.getSelectionModel().getSelectedItem();
 
-                EditMemberMenu.display( member, memberShipService, incomeService );
-                updateObservableList();
+                int oldId = member.getId();
 
-                for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )
-                    IO.println( memberShipService.getMemberRegistry().getMembers().get(key) );
+                EditMemberMenu.display( member, memberShipService, incomeService );
+
+                memberShipService.getMemberRegistry().getMembers().remove( oldId );
+                memberShipService.getMemberRegistry().addMember( member );
+
+                updateObservableList();
             }
 
             catch ( IndexOutOfBoundsException ex ) {
                 IO.println( "Du måste trycka på en medlem" );
-                // todo alert box
             }
 
             catch ( NullPointerException ex ) {}
@@ -105,7 +105,6 @@ public class MemberMenu {
 
             catch ( IndexOutOfBoundsException ex ) {
                 IO.println( "Du måste trycka på en medlem" );
-                // todo alert box
             }
 
             catch ( NullPointerException ex ) {}
@@ -148,6 +147,7 @@ public class MemberMenu {
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.setTitle( "Medlemmar" );
         stage.setScene( scene );
+        stage.setResizable( false );
         stage.showAndWait();
     }
 

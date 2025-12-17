@@ -20,7 +20,7 @@ public class NewMemberMenu {
         stage.setResizable( false );
 
         GridPane root = new GridPane();
-        root.setStyle("-fx-background-color: #2b2b2b;"); // En snygg mörkgrå "Dark Mode"-färg
+        root.setStyle("-fx-background-color: #2b2b2b;");
         root.getStylesheets().add( NewMemberMenu.class.getResource("/forms.css").toExternalForm() );
 
         root.setHgap( 25 );
@@ -45,13 +45,26 @@ public class NewMemberMenu {
                 final String name = nameTextField.getText();
                 final Level level = Level.valueOf(String.valueOf( pricePolicyLevel.getValue() ) );
 
-                boolean idAlreadyExists = membershipService.getMemberWithID( Integer.parseInt( id ) ) != null;
+                int newID =  Integer.parseInt( id );
+
+                boolean idAlreadyExists = false;
+                int counter = 0;
+
+                for( int ids: membershipService.getMemberRegistry().getMembers().keySet() ) {
+
+                    Member memberAtID = membershipService.getMemberRegistry().getMember( ids );
+
+                    if( memberAtID.getId() == newID )
+                        counter++;
+                }
+
+                if( counter > 0 )
+                    idAlreadyExists = true;
 
                 if ( !id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty() && !idAlreadyExists ) {
                     member.setId( Integer.parseInt(id) );
                     member.setName( nameTextField.getText() );
                     member.setLevel( level );
-
 
                     incomeService.handleEntryFeePaymen( member, null );
 

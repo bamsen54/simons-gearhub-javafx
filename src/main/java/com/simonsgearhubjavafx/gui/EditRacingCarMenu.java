@@ -99,7 +99,12 @@ public class EditRacingCarMenu {
                         return;
                     }
 
+                    inventory.getInventory().remove( inventoryEntry.getId() );
+
+
                     RacingCar racingCar = new RacingCar( ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
+
+                    inventory.getInventory().put(Integer.valueOf(idField.getText()), new InventoryEntry( racingCar, Integer.parseInt(quantityField.getText()))  );
 
                     newRacingCarEntry.setItem( racingCar );
 
