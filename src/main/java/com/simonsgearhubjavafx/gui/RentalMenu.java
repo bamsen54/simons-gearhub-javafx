@@ -116,7 +116,8 @@ public class RentalMenu {
         Stage stage = new Stage();
 
         stage.initModality( Modality.APPLICATION_MODAL );
-        stage.setTitle( "Medlemmar" );
+        stage.setTitle( "Hyr" );
+        stage.setResizable( false );
         stage.setScene( scene );
         stage.showAndWait();
     }

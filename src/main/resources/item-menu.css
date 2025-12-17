@@ -2,4 +2,51 @@
 Button {
 
     -fx-font-size: 18px;
+
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: #A9B7C6;
+}
+
+Label {
+
+    -fx-text-fill: #A9B7C6;
+}
+
+BorderPane {
+
+    -fx-background-color: #2b2b2b;
+}
+
+/* Själva listan */
+.list-view {
+    -fx-background-color: #333333;
+    -fx-background-insets: 0;
+    -fx-padding: 2;
+    -fx-border-color: #444444;
+}
+
+/* De enskilda raderna */
+.list-cell {
+    -fx-background-color: transparent; /* Låter list-view-färgen synas igenom */
+    -fx-text-fill: #A9B7C6;
+    -fx-padding: 10 15; /* Lite mer luft för en lyxigare känsla */
+}
+
+/* När man håller musen över (Hovring) */
+.list-cell:hover {
+    -fx-background-color: #3d3d3d;
+    -fx-text-fill: #ffffff;
+}
+
+/* Den valda raden (Istället för blå) */
+.list-cell:filled:selected {
+    -fx-background-color: #4a545e; /* Subtil gråblå/slate */
+    -fx-text-fill: white;
+    /* En liten detalj: en ljusare kant på toppen för djup */
+    -fx-border-color: #5a646e transparent #3a444e transparent;
+}
+
+/* Fix för att ta bort den fula fokus-ramen som JavaFX lägger till som standard */
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: #4a545e;
 }

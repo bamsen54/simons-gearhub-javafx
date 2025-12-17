@@ -27,6 +27,8 @@ public class EditRacingCarMenu {
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
         Stage stage = new Stage();
+        stage.setTitle( "Ändra Racingbil" );
+        stage.setResizable( false );
 
         GridPane root = new GridPane();
         root.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
@@ -150,7 +152,7 @@ public class EditRacingCarMenu {
 
         root.add( savePersonalCarButton, 0, 6 );
 
-        Scene scene = new Scene( root, 400, 400 );
+        Scene scene = new Scene( root, 500, 500 );
         stage.setScene( scene );
 
         stage.initModality(  Modality.APPLICATION_MODAL );

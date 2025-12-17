@@ -20,10 +20,12 @@ public class NewInventoryEntryPersonalCarMenu {
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
         Stage stage = new Stage();
+        stage.setTitle( "Ny Personbil" );
+        stage.setResizable( false );
 
         GridPane root = new GridPane();
-        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-inventoryentry-menu.css" ).toExternalForm() );
-
+        root.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
+        root.setStyle("-fx-background-color: #2B2B2B !important;");
         Label id = new Label( "Id" );
         TextField idField = new TextField();
 
@@ -113,7 +115,7 @@ public class NewInventoryEntryPersonalCarMenu {
 
         root.add( savePersonalCarButton, 0, 6 );
 
-        Scene scene = new Scene( root, 400, 400 );
+        Scene scene = new Scene( root, 500, 500 );
         stage.setScene( scene );
 
         stage.initModality(  Modality.APPLICATION_MODAL );

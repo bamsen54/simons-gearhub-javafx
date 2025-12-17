@@ -24,8 +24,11 @@ public class EditMemberMenu {
         newMember.set( member );
 
         Stage stage = new Stage();
+        stage.setTitle( "Ändra Medlem" );
+        stage.setResizable( false );
 
         GridPane root = new GridPane();
+        root.setStyle("-fx-background-color: #2b2b2b;"); // En snygg mörkgrå "Dark Mode"-färg
         root.getStylesheets().add( NewMemberMenu.class.getResource("/forms.css").toExternalForm() );
 
         root.setHgap( 25 );

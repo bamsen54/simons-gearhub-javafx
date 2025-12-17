@@ -47,6 +47,8 @@ public class RentForChosenMemberMenu {
     public void display(Member member) {
 
         Stage stage = new Stage();
+        stage.setTitle( "Hyr" );
+        stage.setResizable(  false );
 
         BorderPane root = new BorderPane();
         root.getStylesheets().add( MemberMenu.class.getResource("/rent-for-chosen-member-menu.css").toExternalForm() );
@@ -105,13 +107,12 @@ public class RentForChosenMemberMenu {
             }
 
             catch ( NumberFormatException ex ) {
-                // TODO
+
             }
 
             catch ( NullPointerException ex ) {
-                // TODO
-            }
 
+            }
         } );
 
         buttonsAndDays.setAlignment( Pos.CENTER );

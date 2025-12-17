@@ -59,7 +59,7 @@ public class MainMenu {
 
         Button membersButton     = new Button("Medlemmar");
         Button itemsButton       = new Button( "Artiklar" );
-        Button rentalButton      = new Button( "Hyr och återlämning" );
+        Button rentalButton      = new Button( "Hyr" );
         Button rentalsInfoButton = new Button( "Hyrningar" );
         Button incomeButton      = new Button( "Intäkter" );
         Button saveButton        = new Button( "Spara" );
@@ -148,7 +148,7 @@ public class MainMenu {
 
         root.setTop( settingsButtons );
 
-        Scene scene = new Scene( root, 600, 600  );
+        Scene scene = new Scene( root, 500, 500  );
         primaryStage.setTitle( "Simons GearHub JavaFx" );
         primaryStage.setScene( scene );
         primaryStage.setResizable( false );

@@ -3,5 +3,14 @@ Button {
 
     -fx-font-size: 18px;
     -fx-pref-width: 200px;
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: #A9B7C6;
 }
+
+BorderPane {
+
+    -fx-background-color: #2b2b2b;
+}
+
+
 

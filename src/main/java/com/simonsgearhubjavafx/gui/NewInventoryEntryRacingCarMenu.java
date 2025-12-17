@@ -26,9 +26,11 @@ public class NewInventoryEntryRacingCarMenu {
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
         Stage stage = new Stage();
+        stage.setTitle( "Ny Racingbil" );
+        stage.setResizable( false );
 
         GridPane root = new GridPane();
-        root.getStylesheets().add( NewMemberMenu.class.getResource( "/new-inventoryentry-menu.css" ).toExternalForm() );
+        root.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
 
         Label id = new Label( "Id" );
         TextField idField = new TextField();
@@ -116,7 +118,7 @@ public class NewInventoryEntryRacingCarMenu {
 
         root.add( saveRacingCarButton, 0, 6 );
 
-        Scene scene = new Scene( root, 400, 400 );
+        Scene scene = new Scene( root, 500, 500 );
         stage.setScene( scene );
 
         stage.initModality(  Modality.APPLICATION_MODAL );

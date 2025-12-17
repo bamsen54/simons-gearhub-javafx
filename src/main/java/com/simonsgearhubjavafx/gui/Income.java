@@ -13,9 +13,11 @@ public class Income {
     public void display(IncomeService incomeService)  {
 
         VBox income = new VBox();
+        income.setStyle( "-fx-background-color: #2B2B2B;" );
+        income.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
         income.setAlignment( Pos.CENTER );
         income.setSpacing(10);
-        income.setStyle( "-fx-font-size: 18px" );
+
 
         Label entryFeeIncome = new Label( "inkomst från inträde: " + incomeService.getIncomeEntryFees() + "" );
         Label rentalFeeIncome = new Label( "inkomst från uthyrningar: " + incomeService.getIncomeRentalFees() + "" );
@@ -28,6 +30,8 @@ public class Income {
         Stage stage = new Stage();
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.setScene( scene );
+        stage.setResizable( false );
+        stage.setTitle( "Inkomst" );
         stage.show();
     }
 }

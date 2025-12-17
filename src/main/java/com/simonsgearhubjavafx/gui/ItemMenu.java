@@ -146,6 +146,8 @@ public class ItemMenu {
         Scene scene = new Scene(root, 800, 600 );
         Stage stage = new Stage();
         stage.setScene( scene );
+        stage.setTitle( "Artiklar" );
+        stage.setResizable( false );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
     }

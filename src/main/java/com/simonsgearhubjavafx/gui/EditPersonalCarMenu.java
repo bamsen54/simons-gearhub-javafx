@@ -26,6 +26,8 @@ public class EditPersonalCarMenu {
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
         Stage stage = new Stage();
+        stage.setTitle( "Ändra Personbil" );
+        stage.setResizable( false );
 
         GridPane root = new GridPane();
         root.getStylesheets().add( NewMemberMenu.class.getResource( "/forms.css" ).toExternalForm() );
@@ -152,7 +154,7 @@ public class EditPersonalCarMenu {
 
         root.add( savePersonalCarButton, 0, 6 );
 
-        Scene scene = new Scene( root, 400, 400 );
+        Scene scene = new Scene( root, 500, 500 );
         stage.setScene( scene );
 
         stage.initModality(  Modality.APPLICATION_MODAL );

@@ -15,6 +15,9 @@ public class AutoSaveSettings {
     public static void display() {
 
         BorderPane root = new BorderPane();
+        root.getStylesheets().add( AutoSaveSettings.class.getResource("/autosave-settings.css").toExternalForm() );
+
+
         Scene scene = new Scene( root, 400, 400 );
 
         ToggleButton autoSaveToggle = new ToggleButton( "Auto Save" );
@@ -67,7 +70,7 @@ public class AutoSaveSettings {
         stage.setScene( scene );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.setResizable( false );
-        stage.setTitle( "Auto Save Inställningar" );
+        stage.setTitle( "Autosave Inställningar" );
         stage.showAndWait();
     }
 }

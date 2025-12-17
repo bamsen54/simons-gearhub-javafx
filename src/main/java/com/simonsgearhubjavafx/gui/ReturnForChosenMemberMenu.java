@@ -97,6 +97,8 @@ public class ReturnForChosenMemberMenu {
         Scene scene = new Scene( root, 800, 600 );
         Stage stage = new Stage();
         stage.setScene( scene );
+        stage.setResizable( false );
+        stage.setTitle( "Återlämning" );
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
     }
