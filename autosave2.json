@@ -11,6 +11,12 @@
     "level" : "STANDARD",
     "currentRentals" : [ ],
     "rentalHistory" : [ ]
+  }, {
+    "id" : 2,
+    "name" : "Sara",
+    "level" : "STANDARD",
+    "currentRentals" : [ ],
+    "rentalHistory" : [ ]
   } ],
   "inventoryEntries" : [ {
     "item" : {
@@ -237,5 +243,5 @@
   "incomeRentalFees" : 0.0,
   "autoSaveOn" : true,
   "autoSavePeriod" : 5,
-  "autoSavePath" : "autosave.json"
+  "autoSavePath" : "autosave2.json"
 }

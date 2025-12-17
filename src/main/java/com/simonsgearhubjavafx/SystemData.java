@@ -13,6 +13,9 @@ public class SystemData {
     private List<InventoryEntry> inventoryEntries;
     private double incomeEntryFees;
     private double incomeRentalFees;
+    private boolean autoSaveOn;
+    private int autoSavePeriod;
+    private String autoSavePath;
 
     public SystemData() {
 
@@ -23,6 +26,10 @@ public class SystemData {
         this.inventoryEntries = inventoryEntries;
         this.incomeEntryFees = incomeEntryFees;
         this.incomeRentalFees = incomeRentalFees;
+        this.autoSaveOn = Main.autoSaveOn;
+        this.autoSavePeriod = Main.autoSavePeriod;
+        this.autoSavePath = Main.autoSavePath;
+
     }
 
     public List<InventoryEntry> getInventoryEntries() {
@@ -55,5 +62,29 @@ public class SystemData {
 
     public void setIncomeRentalFees(double incomeRentalFees) {
         this.incomeRentalFees = incomeRentalFees;
+    }
+
+    public int getAutoSavePeriod() {
+        return autoSavePeriod;
+    }
+
+    public void setAutoSavePeriod(int autoSamePeriod) {
+        this.autoSavePeriod = autoSamePeriod;
+    }
+
+    public boolean isAutoSaveOn() {
+        return autoSaveOn;
+    }
+
+    public void setAutoSaveOn(boolean autoSaveOn) {
+        this.autoSaveOn = autoSaveOn;
+    }
+
+    public String getAutoSavePath() {
+        return autoSavePath;
+    }
+
+    public void setAutoSavePath(String autoSavePath) {
+        this.autoSavePath = autoSavePath;
     }
 }

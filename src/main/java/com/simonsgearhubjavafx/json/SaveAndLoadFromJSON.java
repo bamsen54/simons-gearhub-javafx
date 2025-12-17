@@ -2,6 +2,7 @@ package com.simonsgearhubjavafx.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.simonsgearhubjavafx.Main;
 import com.simonsgearhubjavafx.SystemData;
 import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
@@ -56,5 +57,9 @@ public class SaveAndLoadFromJSON {
 
         incomeService.setIncomeEntryFees(  systemData.getIncomeEntryFees() );
         incomeService.setIncomeRentalFees( systemData.getIncomeRentalFees() );
+
+        Main.autoSaveOn = systemData.isAutoSaveOn();
+        Main.autoSavePeriod = systemData.getAutoSavePeriod();
+        Main.autoSavePath = systemData.getAutoSavePath();
     }
 }

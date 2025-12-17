@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        property = "itemType" // <- Namnet på fältet som sparas i JSON ("itemType": "personal")
+        property = "itemType"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = PersonalCar.class, name = "personal"), // Mappar subklassen till ett namn
-        @JsonSubTypes.Type(value = RacingCar.class, name = "race")          // Mappar subklassen till ett namn
+        @JsonSubTypes.Type(value = PersonalCar.class, name = "personal"),
+        @JsonSubTypes.Type(value = RacingCar.class, name = "race")
 })
 public abstract class Item {
 

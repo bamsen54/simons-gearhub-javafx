@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -128,14 +129,29 @@ public class MainMenu {
 
         VBox buttons = new VBox();
         buttons.setAlignment( Pos.CENTER );
-        buttons.setSpacing( 5 );
+        buttons.setSpacing( 10 );
 
         buttons.getChildren().addAll( membersButton, itemsButton, rentalButton, rentalsInfoButton, incomeButton, saveButton, loadButton );
 
         root.setCenter( buttons );
 
-        Scene scene = new Scene( root, 400, 400  );
+        HBox settingsButtons = new HBox();
+
+        Button autoSaveSettingsButton = new Button("Auto Save Inställningar");
+        autoSaveSettingsButton.setStyle( "-fx-font-size: 12px;"  );
+
+        autoSaveSettingsButton.setOnAction( e -> {
+            AutoSaveSettings.display();
+        } );
+
+        settingsButtons.getChildren().addAll( autoSaveSettingsButton );
+
+        root.setTop( settingsButtons );
+
+        Scene scene = new Scene( root, 600, 600  );
+        primaryStage.setTitle( "Simons GearHub JavaFx" );
         primaryStage.setScene( scene );
+        primaryStage.setResizable( false );
         primaryStage.show();
     }
 }
