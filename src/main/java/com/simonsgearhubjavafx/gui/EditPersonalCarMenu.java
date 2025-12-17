@@ -80,19 +80,23 @@ public class EditPersonalCarMenu {
                     final String NAME = nameField.getText();
                     final String CAR_BODY_STYLE = carBodyStyleField.getText();
 
+
                     boolean idAlreadyExists = false;
                     int counter = 0;
 
                     for( int ids: inventory.getInventory().keySet() ) {
 
-                        if( ids == inventory.getInventory().get( ids ).getId() )
+                        InventoryEntry entry = inventory.getInventory().get(ids);
+
+                        if( entry == inventoryEntry )
                             continue;
 
-                        if( ids == inventory.getInventory().get( ids ).getId() )
+                        if( ids == ID )
                             counter++;
+
                     }
 
-                    if( counter > 1 )
+                    if( counter > 0 )
                         idAlreadyExists = true;
 
                     if( idAlreadyExists ) {

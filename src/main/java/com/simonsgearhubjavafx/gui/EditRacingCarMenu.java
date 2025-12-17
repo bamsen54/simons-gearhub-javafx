@@ -86,15 +86,20 @@ public class EditRacingCarMenu {
 
                     for( int ids: inventory.getInventory().keySet() ) {
 
-                        if( ids == inventoryEntry.getId() )
+                        InventoryEntry entry = inventory.getInventory().get(ids);
+
+                        if( entry == inventoryEntry )
+                            continue;
+
+                        if( ids == ID )
                             counter++;
                     }
 
-                    if( counter > 1 || !( String.valueOf( inventoryEntry.getId() ).equals( idField.getText() ) ) )
+                    if( counter > 0 )
                         idAlreadyExists = true;
 
                     if( idAlreadyExists ) {
-                        AlertBox.display( "id", "medlem med det id:t finns redan" );
+                        AlertBox.display( "id", "artikel med det id:t finns redan" );
                         stage.close();
                         return;
                     }

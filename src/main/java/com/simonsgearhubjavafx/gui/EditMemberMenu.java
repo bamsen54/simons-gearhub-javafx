@@ -53,7 +53,7 @@ public class EditMemberMenu {
 
             int newID = - 1;
             try {
-                newID = Integer.parseInt(idTextField.getText());
+                newID = Integer.parseInt( idTextField.getText() );
             }
 
             catch ( NumberFormatException ex ) {
