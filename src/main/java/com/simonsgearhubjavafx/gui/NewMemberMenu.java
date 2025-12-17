@@ -2,12 +2,10 @@ package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.member.Member;
+import com.simonsgearhubjavafx.service.MembershipService;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -16,9 +14,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class NewMemberMenu {
 
-    public static Member display() {
+    public static void display(Member member, MembershipService membershipService) {
 
-        AtomicReference<Member> newMember = new AtomicReference<>();
 
         Stage stage = new Stage();
 
@@ -42,16 +39,29 @@ public class NewMemberMenu {
         Button addNewMemberButton = new Button( "Lägg Till Medlem" );
         addNewMemberButton.setOnAction( e -> {
 
-            final String id   = idTextField.getText();
-            final String name =  nameTextField.getText();
+            try {
+                final String id = idTextField.getText();
+                final String name = nameTextField.getText();
+                final Level level = Level.valueOf(String.valueOf( pricePolicyLevel.getValue() ) );
 
-            if( !id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty()  )
-                newMember.set(new Member( Integer.parseInt( id ), name, pricePolicyLevel.getValue()));
+                boolean idAlreadyExists = membershipService.getMemberWithID( Integer.parseInt( id ) ) != null;
 
-            stage.close();
+                if (!id.isEmpty() && id.matches("[0-9]+") && !name.isEmpty() && !idAlreadyExists) {
+                    member.setId( Integer.parseInt(id) );
+                    member.setName(nameTextField.getText());
+                    member.setLevel( level );
+                    stage.close();
+
+                } else {
+                    AlertBox.display("id", "medlem med det id:t finns redan");
+                    stage.close();
+                }
+            }
+
+            catch ( NumberFormatException ex ) { IO.println( "Number format new Member Menu" ); }
+            catch ( NullPointerException ex ) { IO.println( "Null" );}
+
         } );
-
-
 
         root.add( idLabel, 0, 0 );
         root.add( idTextField, 1, 0 );
@@ -68,6 +78,5 @@ public class NewMemberMenu {
         stage.initModality( Modality.APPLICATION_MODAL );
         stage.showAndWait();
 
-        return newMember.get();
     }
 }

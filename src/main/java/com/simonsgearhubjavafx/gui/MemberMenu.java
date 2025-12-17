@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.function.Predicate;
 import java.util.regex.PatternSyntaxException;
 
@@ -60,12 +61,19 @@ public class MemberMenu {
         Button removeMemberButton = new Button( "Ta Bort Medlem" );
 
         addMemberButton.setOnAction( e -> {
-            Member newMember = NewMemberMenu.display();
 
-            if( newMember != null ) {
-                memberShipService.addNewMember( newMember, incomeService );
-                this.updateObservableList();
+            try {
+                Member newMember = new Member();
+                NewMemberMenu.display( newMember, memberShipService );
+
+
+                if ( newMember != null && memberShipService.getMemberWithID( newMember.getId() ) == null ) {
+                    memberShipService.getMemberRegistry().addMember(newMember);
+                    this.updateObservableList();
+                }
             }
+
+            catch ( NullPointerException ex ) { }
         } );
 
         editMemberButton.setOnAction( e -> {
@@ -73,7 +81,7 @@ public class MemberMenu {
             try {
                 Member member = (Member) members.getSelectionModel().getSelectedItem();
 
-                EditMemberMenu.display( member, incomeService );
+                EditMemberMenu.display( member, memberShipService, incomeService );
                 updateObservableList();
 
                 for( int key: memberShipService.getMemberRegistry().getMembers().keySet() )

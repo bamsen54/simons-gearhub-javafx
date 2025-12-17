@@ -59,12 +59,19 @@ public class Member {
 
     public String toString() {
 
-        StringBuilder stringBuilder = new StringBuilder();
-      stringBuilder.append( this.id ).append( " " ).append(  this.name ).
-                append( " " ).append( this.level.toString() );
+        try {
 
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(this.id).append(" ").append(this.name).
+                    append(" ").append(this.level.toString());
 
-        return stringBuilder.toString();
+            return stringBuilder.toString();
+
+        }
+
+        catch (NullPointerException e) { }
+
+        return "fel";
     }
 
     public void setId(int id) {

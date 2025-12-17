@@ -1,6 +1,7 @@
 package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.Level;
+import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class NewInventoryEntryRacingCarMenu {
 
-    public static InventoryEntry display() {
+    public static InventoryEntry display( Inventory inventory ) {
 
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
@@ -59,22 +60,32 @@ public class NewInventoryEntryRacingCarMenu {
 
             if( !anyEmpty && numericalFieldsAreNumeric) {
 
-                InventoryEntry newPersonalCarEntry = new InventoryEntry();
-                newPersonalCarEntry.setQuantityInStore(Integer.parseInt( quantityField.getText() ) );
+                try {
+                    InventoryEntry newPersonalCarEntry = new InventoryEntry();
+                    newPersonalCarEntry.setQuantityInStore(Integer.parseInt(quantityField.getText()));
 
-                final int ID = Integer.parseInt( idField.getText() );
-                final String NAME = nameField.getText();
-                final String RACING_DICIPLINE = racingDiciplineField.getText() ;
-                final int HORSE_POWER = Integer.parseInt(  horsePowerField.getText() );
-                final double DAILY_RATE = Double.parseDouble( dailyRateField.getText() );
+                    final int ID = Integer.parseInt(idField.getText());
+                    final String NAME = nameField.getText();
+                    final String RACING_DICIPLINE = racingDiciplineField.getText();
+                    final int HORSE_POWER = Integer.parseInt(horsePowerField.getText());
+                    final double DAILY_RATE = Double.parseDouble(dailyRateField.getText());
 
-                RacingCar racingCar = new RacingCar( ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER );
+                    RacingCar racingCar = new RacingCar(ID, NAME, "Racingbil", DAILY_RATE, RACING_DICIPLINE, HORSE_POWER);
 
-                newPersonalCarEntry.setItem( racingCar );
+                    if ( inventory.getInventory().containsKey( ID ) ) {
+                        AlertBox.display("id", "artikel med det id:t finns redan");
+                        stage.close();
+                        return;
+                    }
+                    newPersonalCarEntry.setItem(racingCar);
 
-                newInventoryEntry.set( newPersonalCarEntry );
+                    newInventoryEntry.set(newPersonalCarEntry);
 
-                stage.close();
+                    stage.close();
+
+                }
+
+                catch ( NumberFormatException ex ) {}
             }
         } );
 

@@ -6,6 +6,7 @@ module com.simonsgearhubjavafx {
     requires javafx.graphics;
     requires javafx.base;
     requires com.fasterxml.jackson.databind;
+    requires java.sql;
 
     opens com.simonsgearhubjavafx to com.fasterxml.jackson.databind;        // Tillåter Jackson komma åt SystemData (om den ligger i rot)
     opens com.simonsgearhubjavafx.member to com.fasterxml.jackson.databind;   // Tillåter Jackson komma åt Member (den du fixade)

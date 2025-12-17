@@ -3,6 +3,7 @@ package com.simonsgearhubjavafx.gui;
 import com.simonsgearhubjavafx.Level;
 import com.simonsgearhubjavafx.member.Member;
 import com.simonsgearhubjavafx.service.IncomeService;
+import com.simonsgearhubjavafx.service.MembershipService;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class EditMemberMenu {
 
-    public static void display( Member member, IncomeService incomeService ) {
+    public static void display(Member member, MembershipService membershipService , IncomeService incomeService ) {
 
         AtomicReference<Member> newMember = new AtomicReference<>();
         newMember.set( member );
@@ -49,6 +50,42 @@ public class EditMemberMenu {
 
         Button saveButton = new Button( "Spara Ny Info" );
         saveButton.setOnAction( e -> {
+
+            int newID = - 1;
+            try {
+                newID = Integer.parseInt(idTextField.getText());
+            }
+
+            catch ( NumberFormatException ex ) {
+                AlertBox.display( "id", "id måste vara ett icke-negativt heltal" );
+                stage.close();
+                return;
+            }
+
+            boolean idAlreadyExists = false;
+            int counter = 0;
+
+            for( int id: membershipService.getMemberRegistry().getMembers().keySet() ) {
+
+               Member memberToCheck = membershipService.getMemberRegistry().getMembers().get( id );
+
+               if( memberToCheck == member )
+                   continue;
+
+               if( id == newID  )
+                    counter++;
+            }
+
+            if( counter > 0 )
+                idAlreadyExists = true;
+
+            IO.println( "counter: " + counter );
+
+            if( idAlreadyExists ) {
+                AlertBox.display( "id", "medlem med det id:t finns redan" );
+                stage.close();
+                return;
+            }
 
             try {
                 member.setId( Integer.parseInt( idTextField.getText() ) );

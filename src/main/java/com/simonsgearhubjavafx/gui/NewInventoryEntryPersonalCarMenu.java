@@ -1,5 +1,6 @@
 package com.simonsgearhubjavafx.gui;
 
+import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.PersonalCar;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class NewInventoryEntryPersonalCarMenu {
 
-    public static InventoryEntry display() {
+    public static InventoryEntry display( Inventory inventory  ) {
 
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
@@ -56,22 +57,33 @@ public class NewInventoryEntryPersonalCarMenu {
 
             if( !anyEmpty && numericalFieldsAreNumeric) {
 
-                InventoryEntry newPersonalCarEntry = new InventoryEntry();
-                newPersonalCarEntry.setQuantityInStore(Integer.parseInt( quantityField.getText() ) );
+                try {
 
-                final int ID = Integer.parseInt( idField.getText() );
-                final String NAME = nameField.getText();
-                final int NUMBER_OF_SEATS = Integer.parseInt( numberOfSeatsField.getText() );
-                final String BODY_TYPE = bodyStyleField.getText();
-                final double DAILY_RATE = Double.parseDouble( dailyRateField.getText() );
+                    InventoryEntry newPersonalCarEntry = new InventoryEntry();
+                    newPersonalCarEntry.setQuantityInStore(Integer.parseInt(quantityField.getText()));
 
-                PersonalCar personalCar = new PersonalCar( ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, BODY_TYPE );
+                    final int ID = Integer.parseInt(idField.getText());
+                    final String NAME = nameField.getText();
+                    final int NUMBER_OF_SEATS = Integer.parseInt(numberOfSeatsField.getText());
+                    final String BODY_TYPE = bodyStyleField.getText();
+                    final double DAILY_RATE = Double.parseDouble(dailyRateField.getText());
 
-                newPersonalCarEntry.setItem( personalCar );
+                    PersonalCar personalCar = new PersonalCar(ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, BODY_TYPE);
 
-                newInventoryEntry.set( newPersonalCarEntry );
+                    newPersonalCarEntry.setItem(personalCar);
 
-                stage.close();
+                    if ( inventory.getInventory().containsKey( ID ) ) {
+                        AlertBox.display("id", "artikel med det id:t finns redan");
+                        stage.close();
+                        return;
+                    }
+
+                    newInventoryEntry.set(newPersonalCarEntry);
+
+                    stage.close();
+                }
+
+                catch ( NumberFormatException ex ) {}
             }
         } );
 

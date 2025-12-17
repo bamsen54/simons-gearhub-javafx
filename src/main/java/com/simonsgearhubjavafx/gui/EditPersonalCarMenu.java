@@ -1,6 +1,7 @@
 package com.simonsgearhubjavafx.gui;
 
 import com.simonsgearhubjavafx.Level;
+import com.simonsgearhubjavafx.database.Inventory;
 import com.simonsgearhubjavafx.database.InventoryEntry;
 import com.simonsgearhubjavafx.item.Item;
 import com.simonsgearhubjavafx.item.PersonalCar;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class EditPersonalCarMenu {
 
-    public static void display( InventoryEntry inventoryEntry ) {
+    public static void display( InventoryEntry inventoryEntry, Inventory inventory ) {
 
         AtomicReference<InventoryEntry> newInventoryEntry = new AtomicReference<>();
 
@@ -78,6 +79,27 @@ public class EditPersonalCarMenu {
                     final double DAILY_RATE = Double.parseDouble(dailyRateField.getText());
                     final String NAME = nameField.getText();
                     final String CAR_BODY_STYLE = carBodyStyleField.getText();
+
+                    boolean idAlreadyExists = false;
+                    int counter = 0;
+
+                    for( int ids: inventory.getInventory().keySet() ) {
+
+                        if( ids == inventory.getInventory().get( ids ).getId() )
+                            continue;
+
+                        if( ids == inventory.getInventory().get( ids ).getId() )
+                            counter++;
+                    }
+
+                    if( counter > 1 )
+                        idAlreadyExists = true;
+
+                    if( idAlreadyExists ) {
+                        AlertBox.display( "id", "artikel med det id:t finns redan" );
+                        stage.close();
+                        return;
+                    }
 
                     PersonalCar personalCar = new PersonalCar( ID, NAME, "Personbil", DAILY_RATE, NUMBER_OF_SEATS, CAR_BODY_STYLE );
 

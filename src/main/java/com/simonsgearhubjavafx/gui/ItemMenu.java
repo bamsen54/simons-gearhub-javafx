@@ -64,7 +64,7 @@ public class ItemMenu {
         buttons.getChildren().addAll( addPersonalCarButton, addRacingCarButton, editItemButton, removeItemButton );
 
         addPersonalCarButton.setOnAction( e -> {
-            InventoryEntry newInventoryEntry = NewInventoryEntryPersonalCarMenu.display();
+            InventoryEntry newInventoryEntry = NewInventoryEntryPersonalCarMenu.display( inventory );
 
             IO.println( newInventoryEntry );
             if( newInventoryEntry != null ) {
@@ -74,10 +74,10 @@ public class ItemMenu {
         } );
 
         addRacingCarButton.setOnAction( e -> {
-            InventoryEntry newInventoryEntry = NewInventoryEntryRacingCarMenu.display();
+            InventoryEntry newInventoryEntry = NewInventoryEntryRacingCarMenu.display( inventory );
 
             IO.println( newInventoryEntry );
-            if( newInventoryEntry != null ) {
+            if ( newInventoryEntry != null ) {
                 inventory.getInventory().put( newInventoryEntry.getId(), newInventoryEntry );
                 this.updateObservableList();
             }
@@ -89,11 +89,11 @@ public class ItemMenu {
 
             try {
 
-                if (inventoryEntryToEdit.getItem() instanceof PersonalCar) {
-                    EditPersonalCarMenu.display(inventoryEntryToEdit);
+                if ( inventoryEntryToEdit.getItem() instanceof PersonalCar ) {
+                    EditPersonalCarMenu.display( inventoryEntryToEdit, inventory );
                     updateObservableList();
                 } else if (inventoryEntryToEdit.getItem() instanceof RacingCar) {
-                    EditRacingCarMenu.display(inventoryEntryToEdit);
+                    EditRacingCarMenu.display( inventoryEntryToEdit, inventory );
                     updateObservableList();
                 }
             }
